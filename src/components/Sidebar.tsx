@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { htmlTagsData, HTMLTag } from '../data/htmlTags';
-import { Search, BookOpen, Code, ChevronRight, ChevronDown, Sparkles, Layers } from 'lucide-react';
+import { Search, BookOpen, Code, ChevronRight, ChevronDown, Sparkles, Layers, HelpCircle } from 'lucide-react';
 
 interface SidebarProps {
   selectedTag: string;
   onSelectTag: (tagName: string) => void;
-  activeTab: 'docs' | 'playground';
-  setActiveTab: (tab: 'docs' | 'playground') => void;
+  activeTab: 'docs' | 'playground' | 'quiz';
+  setActiveTab: (tab: 'docs' | 'playground' | 'quiz') => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -75,28 +75,39 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Navigation Tabs */}
       <div className="px-4 pt-4">
-        <div className="grid grid-cols-2 gap-1 p-1 bg-muted rounded-xl">
+        <div className="grid grid-cols-3 gap-1 p-1 bg-muted rounded-xl">
           <button
             onClick={() => setActiveTab('docs')}
-            className={`flex items-center justify-center gap-2 py-2 text-xs font-semibold rounded-lg transition-all ${
+            className={`flex items-center justify-center gap-1.5 py-2 text-[11px] font-semibold rounded-lg transition-all ${
               activeTab === 'docs'
                 ? 'bg-background text-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            <BookOpen size={14} />
-            Documentação
+            <BookOpen size={12} />
+            Docs
           </button>
           <button
             onClick={() => setActiveTab('playground')}
-            className={`flex items-center justify-center gap-2 py-2 text-xs font-semibold rounded-lg transition-all ${
+            className={`flex items-center justify-center gap-1.5 py-2 text-[11px] font-semibold rounded-lg transition-all ${
               activeTab === 'playground'
                 ? 'bg-background text-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            <Code size={14} />
+            <Code size={12} />
             Playground
+          </button>
+          <button
+            onClick={() => setActiveTab('quiz')}
+            className={`flex items-center justify-center gap-1.5 py-2 text-[11px] font-semibold rounded-lg transition-all ${
+              activeTab === 'quiz'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <HelpCircle size={12} />
+            Quiz
           </button>
         </div>
       </div>
@@ -141,7 +152,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <div className="space-y-0.5 pl-1">
                   {tags.map(tag => {
                     const cleanName = tag.name.replace(/[<>]/g, '');
-                    const isSelected = selectedTag === cleanName;
+                    const isSelected = selectedTag === cleanName && activeTab === 'docs';
 
                     return (
                       <button

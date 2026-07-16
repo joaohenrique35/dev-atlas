@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import TagDetail from '../components/TagDetail';
 import Playground from '../components/Playground';
+import Quiz from '../components/Quiz';
 import { htmlTagsData } from '../data/htmlTags';
 import { Search, Sparkles, Compass, Code, BookOpen, Moon, Sun, Layers } from 'lucide-react';
 import { MadeWithDyad } from "@/components/made-with-dyad";
 
 const Index = () => {
   const [selectedTag, setSelectedTag] = useState<string>('img');
-  const [activeTab, setActiveTab] = useState<'docs' | 'playground'>('docs');
+  const [activeTab, setActiveTab] = useState<'docs' | 'playground' | 'quiz'>('docs');
   const [searchQuery, setSearchQuery] = useState('');
   const [playgroundCode, setPlaygroundCode] = useState<string>('');
   const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -34,7 +35,7 @@ const Index = () => {
   const currentTagData = htmlTagsData[selectedTag] || htmlTagsData['img'];
 
   // Quick suggestions
-  const suggestions = ['div', 'img', 'form', 'video', 'section'];
+  const suggestions = ['div', 'img', 'form', 'video', 'section', 'button', 'input'];
 
   return (
     <div className={`min-h-screen flex bg-background text-foreground ${darkMode ? 'dark' : ''}`}>
@@ -126,11 +127,13 @@ const Index = () => {
               onOpenInPlayground={handleOpenInPlayground}
             />
           </div>
-        ) : (
+        ) : activeTab === 'playground' ? (
           <Playground
             initialCode={playgroundCode || currentTagData.syntax}
             tagName={currentTagData.name}
           />
+        ) : (
+          <Quiz />
         )}
 
         {/* Footer */}

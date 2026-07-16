@@ -77,7 +77,7 @@ export const htmlTagsData: Record<string, HTMLTag> = {
       "Criar blocos de conteúdo ou seções estilizadas.",
       "Servir como alvo para manipulações dinâmicas via JavaScript."
     ],
-    syntax: `<div class="p-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl shadow-xl">\n  <h3 className="text-xl font-bold">Olá, Dev!</h3>\n  <p className="mt-2 opacity-90">Este é um container estilizado usando uma div.</p>\n</div>`,
+    syntax: `<div class="p-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl shadow-xl">\n  <h3 class="text-xl font-bold">Olá, Dev!</h3>\n  <p class="mt-2 opacity-90">Este é um container estilizado usando uma div.</p>\n</div>`,
     lineByLine: [
       { line: '<div class="...">', explanation: "Inicia o container genérico aplicando classes de estilo do Tailwind." },
       { line: '  <h3>...</h3>', explanation: "Título interno do container." },
@@ -153,7 +153,7 @@ export const htmlTagsData: Record<string, HTMLTag> = {
     ],
     syntax: `<video \n  controls \n  poster="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500" \n  class="w-full rounded-xl shadow-lg max-w-md"\n>\n  <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-32122-large.mp4" type="video/mp4" />\n  Seu navegador não suporta a tag de vídeo.\n</video>`,
     lineByLine: [
-      { line: '<video controls poster="..." class="...">', explanation: "Inicia o elemento de vídeo com controles nativos habilitados e uma imagem de capa (poster)." },
+      { line: '<video controls poster="..." class="...">', explanation: "Inicia o elemento de vídeo com controls nativos habilitados e uma imagem de capa (poster)." },
       { line: '  <source src="..." type="video/mp4" />', explanation: "Especifica o arquivo de vídeo e seu formato para que o navegador possa decodificar." },
       { line: '  Seu navegador não suporta...', explanation: "Texto de fallback exibido apenas se o navegador do usuário for muito antigo e não suportar HTML5." },
       { line: '</video>', explanation: "Fecha a tag de vídeo." }
@@ -330,6 +330,83 @@ export const htmlTagsData: Record<string, HTMLTag> = {
     compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
     curiosity: "Nos anos 90, antes do CSS se tornar popular, quase todos os sites usavam tabelas invisíveis e aninhadas para posicionar menus, banners e textos. Era um pesadelo de manutenção!",
     relatedTags: ["tr", "td", "th", "thead", "tbody", "tfoot", "caption"]
+  },
+  "button": {
+    name: "<button>",
+    category: "Formulários",
+    description: "Representa um botão clicável para disparar ações.",
+    whatIs: "A tag <button> cria um elemento de botão interativo que pode ser clicado pelo usuário para enviar formulários, abrir modais ou disparar qualquer função JavaScript.",
+    whatFor: [
+      "Disparar ações interativas em páginas web.",
+      "Enviar dados de formulários (com type='submit').",
+      "Limpar campos de formulários (com type='reset')."
+    ],
+    syntax: `<button \n  type="button" \n  onclick="alert('Botão clicado!')" \n  class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 transition-all text-sm"\n>\n  Clique Aqui\n</button>`,
+    lineByLine: [
+      { line: '<button', explanation: "Inicia a tag de botão." },
+      { line: '  type="button"', explanation: "Define o comportamento do botão (evita enviar formulários acidentalmente)." },
+      { line: '  onclick="..."', explanation: "Atributo de evento que executa código JavaScript ao ser clicado." },
+      { line: '  class="..."', explanation: "Aplica classes de estilo modernas do Tailwind CSS." },
+      { line: '>', explanation: "Fecha a abertura da tag." },
+      { line: '  Clique Aqui', explanation: "Texto visível dentro do botão." },
+      { line: '</button>', explanation: "Fecha a tag de botão." }
+    ],
+    attributes: [
+      { name: "type", description: "Define o tipo do botão ('button', 'submit' ou 'reset').", required: true },
+      { name: "disabled", description: "Desabilita o botão, impedindo cliques e interações.", required: false },
+      { name: "name", description: "Nome do botão, enviado junto com os dados do formulário.", required: false }
+    ],
+    bestPractices: [
+      "Sempre defina explicitamente o atributo 'type' para evitar comportamentos inesperados em formulários.",
+      "Use classes de foco (focus-visible) para garantir acessibilidade por teclado.",
+      "Não use botões para links de navegação simples (use a tag <a> para isso)."
+    ],
+    commonErrors: [
+      "Esquecer de definir o atributo 'type', o que faz o botão se comportar como 'submit' por padrão dentro de formulários.",
+      "Usar divs estilizadas como botões sem adicionar suporte a teclado e leitores de tela."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "A tag <button> foi introduzida no HTML 4.0 para permitir botões muito mais ricos visualmente do que os antigos inputs de tipo botão, aceitando imagens e outros elementos dentro de si.",
+    relatedTags: ["input", "a", "form"]
+  },
+  "input": {
+    name: "<input>",
+    category: "Formulários",
+    description: "Campo de entrada de dados interativo.",
+    whatIs: "A tag <input> é usada para criar controles interativos em formulários baseados na web para receber dados do usuário. É um elemento auto-fechável extremamente versátil.",
+    whatFor: [
+      "Coletar textos, senhas, e-mails e números.",
+      "Criar seletores de data, cor e arquivos.",
+      "Criar caixas de seleção (checkbox) e botões de rádio (radio)."
+    ],
+    syntax: `<input \n  type="email" \n  placeholder="seu-email@exemplo.com" \n  required \n  class="w-full max-w-xs px-4 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"\n/>`,
+    lineByLine: [
+      { line: '<input', explanation: "Inicia a tag de entrada de dados." },
+      { line: '  type="email"', explanation: "Define o tipo de dado esperado (valida automaticamente o formato de e-mail)." },
+      { line: '  placeholder="..."', explanation: "Texto de ajuda exibido dentro do campo antes do usuário digitar." },
+      { line: '  required', explanation: "Torna o preenchimento deste campo obrigatório para o envio do formulário." },
+      { line: '  class="..."', explanation: "Aplica estilos modernos e transições suaves com Tailwind." },
+      { line: '/>', explanation: "Fecha a tag auto-fechável." }
+    ],
+    attributes: [
+      { name: "type", description: "Define o tipo de controle (ex: 'text', 'password', 'email', 'checkbox', 'date').", required: true },
+      { name: "value", description: "O valor inicial ou atual do campo de entrada.", required: false },
+      { name: "placeholder", description: "Texto descritivo temporário exibido no campo.", required: false },
+      { name: "required", description: "Indica que o campo deve ser preenchido antes de enviar.", required: false },
+      { name: "disabled", description: "Desativa o campo de entrada.", required: false }
+    ],
+    bestPractices: [
+      "Sempre associe um elemento <label> ao input para acessibilidade.",
+      "Use o tipo de input mais específico possível (ex: 'tel' para telefones, 'number' para números) para otimizar teclados móveis.",
+      "Utilize o atributo 'autocomplete' apropriado para ajudar o usuário a preencher dados comuns."
+    ],
+    commonErrors: [
+      "Não fornecer um rótulo acessível (label) para o input.",
+      "Usar inputs de texto genéricos para dados que possuem tipos específicos (como e-mails ou datas)."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "O atributo 'type' do input aceita mais de 20 valores diferentes hoje em dia, transformando um simples campo de texto em um seletor de cores completo ou calendário nativo.",
+    relatedTags: ["form", "label", "textarea", "select"]
   }
 };
 
