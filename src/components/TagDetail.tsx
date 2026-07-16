@@ -596,7 +596,7 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
               onClick={() => onNavigateToTag(related)}
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-muted hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-950/30 dark:hover:text-indigo-400 rounded-xl text-sm font-medium transition-all border border-transparent hover:border-indigo-100 dark:hover:border-indigo-950"
             >
-              <span className="font-mono"><{related}></span>
+              <span className="font-mono">{"<" + related + ">"}</span>
               <ArrowUpRight size={14} />
             </button>
           ))}
