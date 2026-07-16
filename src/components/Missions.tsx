@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Code, CheckCircle2, Play, RotateCcw, Sparkles, Trophy, ArrowRight, AlertCircle } from 'lucide-react';
+import { Code, CheckCircle2, Play, RotateCcw, Sparkles, Trophy, ArrowRight, AlertCircle, Eye, BookOpen } from 'lucide-react';
 import { showSuccess, showError } from '../utils/toast';
 import Celebration from './Celebration';
+import { useIsMobile } from '../hooks/use-mobile';
 
 interface Mission {
   id: string;
@@ -124,6 +125,9 @@ const Missions: React.FC = () => {
   const [completedMissions, setCompletedMissions] = useState<string[]>([]);
   const [validationError, setValidationError] = useState<string | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'instructions' | 'editor' | 'preview'>('instructions');
+
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const completed = JSON.parse(localStorage.getItem('devatlas_completed_missions') || '[]');
@@ -131,6 +135,7 @@ const Missions: React.FC = () => {
     setCode(missionsList[activeMissionIdx].startingCode);
     setValidationError(null);
     setShowCelebration(false);
+    setMobileTab('instructions'); // Reset to instructions tab on mission change
   }, [activeMissionIdx]);
 
   const handleReset = () => {
@@ -158,6 +163,9 @@ const Missions: React.FC = () => {
       setValidationError(result.message);
       setShowCelebration(false);
       showError("Alguns requisitos não foram atendidos.");
+      if (isMobile) {
+        setMobileTab('instructions'); // Switch back to instructions to show the error
+      }
     }
   };
 
@@ -181,7 +189,7 @@ const Missions: React.FC = () => {
         </div>
 
         {/* Mission Selector */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 max-w-full scrollbar-none">
           {missionsList.map((mission, idx) => {
             const isActive = idx === activeMissionIdx;
             const isMissionDone = completedMissions.includes(mission.id);
@@ -204,10 +212,49 @@ const Missions: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobile Tab Switcher (Only visible on Mobile) */}
+      {isMobile && (
+        <div className="flex border-b border-border bg-muted/30 p-1">
+          <button
+            onClick={() => setMobileTab('instructions')}
+            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              mobileTab === 'instructions'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground'
+            }`}
+          >
+            <BookOpen size={14} />
+            Instruções
+          </button>
+          <button
+            onClick={() => setMobileTab('editor')}
+            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              mobileTab === 'editor'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground'
+            }`}
+          >
+            <Code size={14} />
+            Editor
+          </button>
+          <button
+            onClick={() => setMobileTab('preview')}
+            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              mobileTab === 'preview'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground'
+            }`}
+          >
+            <Eye size={14} />
+            Resultado
+          </button>
+        </div>
+      )}
+
       {/* Split Screen Layout */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
         {/* Left Column: Instructions & Requirements (4 cols) */}
-        <div className="lg:col-span-4 border-r border-border bg-card flex flex-col h-full overflow-y-auto p-6 space-y-6">
+        <div className={`lg:col-span-4 border-r border-border bg-card flex flex-col h-full overflow-y-auto p-6 space-y-6 ${isMobile && mobileTab !== 'instructions' ? 'hidden' : 'flex'}`}>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full uppercase tracking-wider ${
@@ -278,9 +325,9 @@ const Missions: React.FC = () => {
         </div>
 
         {/* Right Column: Editor & Live Preview (8 cols) */}
-        <div className="lg:col-span-8 grid grid-rows-2 h-full overflow-hidden">
+        <div className={`lg:col-span-8 grid grid-rows-2 h-full overflow-hidden ${isMobile && mobileTab === 'instructions' ? 'hidden' : 'grid'}`}>
           {/* Code Editor */}
-          <div className="flex flex-col border-b border-border overflow-hidden">
+          <div className={`flex flex-col border-b border-border overflow-hidden ${isMobile && mobileTab !== 'editor' ? 'hidden' : 'flex'}`}>
             <div className="px-4 py-2 bg-muted/50 border-b border-border flex items-center justify-between">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider font-mono">Editor de Código</span>
               <span className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold flex items-center gap-1">
@@ -296,13 +343,13 @@ const Missions: React.FC = () => {
           </div>
 
           {/* Live Preview */}
-          <div className="flex flex-col overflow-hidden bg-slate-50 dark:bg-slate-900/40">
+          <div className={`flex flex-col overflow-hidden bg-slate-50 dark:bg-slate-900/40 ${isMobile && mobileTab !== 'preview' ? 'hidden' : 'flex'}`}>
             <div className="px-4 py-2 bg-muted/50 border-b border-border flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Resultado em Tempo Real</span>
             </div>
-            <div className="flex-1 p-6 flex items-center justify-center overflow-auto">
-              <div className="w-full max-w-xl bg-white dark:bg-slate-950 rounded-2xl shadow-xl border border-border/60 p-6 min-h-[180px] flex items-center justify-center">
+            <div className="flex-1 p-4 md:p-6 flex items-center justify-center overflow-auto">
+              <div className="w-full max-w-xl bg-white dark:bg-slate-950 rounded-2xl shadow-xl border border-border/60 p-4 md:p-6 min-h-[180px] flex items-center justify-center">
                 <iframe
                   title="Mission Preview"
                   srcDoc={`

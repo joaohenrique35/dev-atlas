@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Play, RotateCcw, Copy, Check, Sparkles, Code, LayoutTemplate, Download, Share2, Sliders, Eye } from 'lucide-react';
 import { showSuccess } from '../utils/toast';
+import { useIsMobile } from '../hooks/use-mobile';
 
 interface PlaygroundProps {
   initialCode?: string;
@@ -87,6 +88,9 @@ const Playground: React.FC<PlaygroundProps> = ({ initialCode = '', tagName = 'im
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
   const [editorMode, setEditorMode] = useState<'code' | 'visual'>('code');
+  const [mobileView, setMobileView] = useState<'editor' | 'preview'>('editor');
+
+  const isMobile = useIsMobile();
 
   // Visual Generator States
   const [compType, setCompType] = useState<'card' | 'button' | 'alert'>('card');
@@ -215,73 +219,106 @@ const Playground: React.FC<PlaygroundProps> = ({ initialCode = '', tagName = 'im
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] bg-background">
       {/* Playground Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between px-6 py-4 border-b border-border bg-card gap-4">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg dark:bg-indigo-950/50 dark:text-indigo-400">
-            <Code size={18} />
+      <div className="flex flex-col px-6 py-4 border-b border-border bg-card gap-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg dark:bg-indigo-950/50 dark:text-indigo-400">
+              <Code size={18} />
+            </div>
+            <div>
+              <h2 className="font-bold text-base">Playground Interativo</h2>
+              <p className="text-xs text-muted-foreground">Edite o código abaixo e veja o resultado instantaneamente</p>
+            </div>
           </div>
-          <div>
-            <h2 className="font-bold text-base">Playground Interativo</h2>
-            <p className="text-xs text-muted-foreground">Edite o código abaixo e veja o resultado instantaneamente</p>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors text-indigo-600 dark:text-indigo-400"
+              title="Gerar link de compartilhamento"
+            >
+              <Share2 size={14} />
+              <span className="hidden sm:inline">{shared ? 'Compartilhado!' : 'Compartilhar'}</span>
+            </button>
+            <button
+              onClick={handleDownload}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors"
+              title="Baixar como arquivo .html"
+            >
+              <Download size={14} />
+              <span className="hidden sm:inline">Baixar HTML</span>
+            </button>
+            <button
+              onClick={handleReset}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors"
+              title="Restaurar código original"
+            >
+              <RotateCcw size={14} />
+              <span className="hidden sm:inline">Resetar</span>
+            </button>
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors"
+            >
+              {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
+              <span>{copied ? 'Copiado!' : 'Copiar'}</span>
+            </button>
           </div>
         </div>
 
         {/* Templates Selector */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 border-t border-border/40 pt-3">
           <span className="text-xs text-muted-foreground font-medium flex items-center gap-1">
             <LayoutTemplate size={14} /> Templates:
           </span>
-          {templates.map((tpl, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleLoadTemplate(tpl.code)}
-              className="px-2.5 py-1 text-xs font-semibold border border-border rounded-lg hover:bg-muted transition-colors"
-              title={tpl.description}
-            >
-              {tpl.name}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleShare}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors text-indigo-600 dark:text-indigo-400"
-            title="Gerar link de compartilhamento"
-          >
-            <Share2 size={14} />
-            {shared ? 'Compartilhado!' : 'Compartilhar'}
-          </button>
-          <button
-            onClick={handleDownload}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors"
-            title="Baixar como arquivo .html"
-          >
-            <Download size={14} />
-            Baixar HTML
-          </button>
-          <button
-            onClick={handleReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors"
-            title="Restaurar código original"
-          >
-            <RotateCcw size={14} />
-            Resetar
-          </button>
-          <button
-            onClick={handleCopy}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors"
-          >
-            {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
-            {copied ? 'Copiado!' : 'Copiar'}
-          </button>
+          <div className="flex gap-1.5 overflow-x-auto pb-1 max-w-full scrollbar-none">
+            {templates.map((tpl, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleLoadTemplate(tpl.code)}
+                className="px-2.5 py-1 text-xs font-semibold border border-border rounded-lg hover:bg-muted transition-colors shrink-0"
+                title={tpl.description}
+              >
+                {tpl.name}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* Mobile Tab Switcher (Only visible on Mobile) */}
+      {isMobile && (
+        <div className="flex border-b border-border bg-muted/30 p-1">
+          <button
+            onClick={() => setMobileView('editor')}
+            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              mobileView === 'editor'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground'
+            }`}
+          >
+            <Code size={14} />
+            Editor / Gerador
+          </button>
+          <button
+            onClick={() => setMobileView('preview')}
+            className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              mobileView === 'preview'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground'
+            }`}
+          >
+            <Eye size={14} />
+            Resultado
+          </button>
+        </div>
+      )}
 
       {/* Editor & Preview Split Screen */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
         {/* Left Column: Code Editor OR Visual Generator */}
-        <div className="flex flex-col border-r border-border h-full overflow-hidden">
+        <div className={`flex flex-col border-r border-border h-full overflow-hidden ${isMobile && mobileView !== 'editor' ? 'hidden' : 'flex'}`}>
           {/* Mode Switcher */}
           <div className="px-4 py-2 bg-muted/50 border-b border-border flex items-center justify-between">
             <div className="flex items-center gap-1 bg-card border border-border p-0.5 rounded-xl">
@@ -309,7 +346,7 @@ const Playground: React.FC<PlaygroundProps> = ({ initialCode = '', tagName = 'im
               </button>
             </div>
             <span className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold flex items-center gap-1">
-              <Sparkles size={12} /> Suporta Tailwind CSS
+              <Sparkles size={12} /> Suporta Tailwind
             </span>
           </div>
 
@@ -338,7 +375,7 @@ const Playground: React.FC<PlaygroundProps> = ({ initialCode = '', tagName = 'im
                           : 'border-border hover:bg-muted text-foreground/80'
                       }`}
                     >
-                      {type === 'card' ? '📇 Card de Perfil' : type === 'button' ? '🔘 Botão Moderno' : '🚨 Alerta / Aviso'}
+                      {type === 'card' ? '📇 Card' : type === 'button' ? '🔘 Botão' : '🚨 Alerta'}
                     </button>
                   ))}
                 </div>
@@ -511,13 +548,13 @@ const Playground: React.FC<PlaygroundProps> = ({ initialCode = '', tagName = 'im
         </div>
 
         {/* Live Preview */}
-        <div className="flex flex-col h-full overflow-hidden bg-slate-50 dark:bg-slate-900/40">
+        <div className={`flex flex-col h-full overflow-hidden bg-slate-50 dark:bg-slate-900/40 ${isMobile && mobileView !== 'preview' ? 'hidden' : 'flex'}`}>
           <div className="px-4 py-2 bg-muted/50 border-b border-border flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
             <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Resultado em Tempo Real</span>
           </div>
-          <div className="flex-1 p-6 flex items-center justify-center overflow-auto">
-            <div className="w-full max-w-2xl bg-white dark:bg-slate-950 rounded-2xl shadow-xl border border-border/60 p-6 min-h-[300px] flex items-center justify-center">
+          <div className="flex-1 p-4 md:p-6 flex items-center justify-center overflow-auto">
+            <div className="w-full max-w-2xl bg-white dark:bg-slate-950 rounded-2xl shadow-xl border border-border/60 p-4 md:p-6 min-h-[250px] md:min-h-[300px] flex items-center justify-center">
               {/* Render HTML safely using srcDoc in an iframe to isolate styles and scripts */}
               <iframe
                 title="Playground Preview"
@@ -545,7 +582,7 @@ const Playground: React.FC<PlaygroundProps> = ({ initialCode = '', tagName = 'im
                     </body>
                   </html>
                 `}
-                className="w-full h-[400px] border-none bg-transparent"
+                className="w-full h-[350px] border-none bg-transparent"
                 sandbox="allow-scripts"
               />
             </div>
