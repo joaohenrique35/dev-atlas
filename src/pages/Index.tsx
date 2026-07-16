@@ -150,7 +150,7 @@ const Index = () => {
                       onClick={() => handleSelectTag(tag)}
                       className="px-3 py-1 text-xs font-mono font-semibold bg-card hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-950/30 dark:hover:text-indigo-400 border border-border rounded-lg transition-all"
                     >
-                      <{tag}>
+                      {"<" + tag + ">"}
                     </button>
                   ))}
                 </div>
