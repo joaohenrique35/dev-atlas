@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HTMLTag, generateAIResponse } from '../data/htmlTags';
 import { 
   Sparkles, BookOpen, HelpCircle, Code, CheckCircle2, AlertTriangle, 
-  Compass, ArrowRight, Play, Check, Copy, MessageSquare, Brain, Lightbulb, ArrowUpRight, Send
+  Compass, ArrowRight, Play, Check, Copy, MessageSquare, Brain, Lightbulb, ArrowUpRight, Send, Layers, Palette
 } from 'lucide-react';
 import { showSuccess } from '../utils/toast';
 
@@ -12,15 +12,79 @@ interface TagDetailProps {
   onOpenInPlayground: (code: string) => void;
 }
 
+interface Recipe {
+  title: string;
+  description: string;
+  code: string;
+}
+
+// Tailwind Styling Recipes database for each tag
+const stylingRecipes: Record<string, Recipe[]> = {
+  img: [
+    {
+      title: "Avatar Circular",
+      description: "Foto de perfil redonda com borda dupla e sombra suave.",
+      code: `<img \n  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop" \n  alt="Avatar de usuário" \n  class="w-24 h-24 rounded-full border-4 border-white ring-4 ring-indigo-500 shadow-xl mx-auto"\n/>`
+    },
+    {
+      title: "Capa com Efeito Zoom",
+      description: "Imagem de card que expande suavemente ao passar o mouse.",
+      code: `<div class="overflow-hidden rounded-2xl max-w-xs shadow-lg bg-slate-900">\n  <img \n    src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400" \n    alt="Capa abstrata" \n    class="w-full h-48 object-cover hover:scale-110 transition-transform duration-500 opacity-90 hover:opacity-100"\n  />\n</div>`
+    },
+    {
+      title: "Efeito Duotone / Filtro",
+      description: "Imagem estilizada com sobreposição de cor indigo.",
+      code: `<div class="relative max-w-xs rounded-2xl overflow-hidden bg-indigo-900 shadow-lg">\n  <img \n    src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400" \n    alt="Filtro duotone" \n    class="w-full h-48 object-cover mix-blend-overlay opacity-80"\n  />\n</div>`
+    }
+  ],
+  div: [
+    {
+      title: "Card Glassmorphism",
+      description: "Efeito de vidro fosco translúcido com bordas finas.",
+      code: `<div class="p-8 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl max-w-xs text-center text-slate-800 dark:text-white">\n  <span class="text-2xl">✨</span>\n  <h4 class="font-bold mt-2">Efeito Glass</h4>\n  <p class="text-xs opacity-80 mt-1">Design moderno e translúcido usando Tailwind CSS.</p>\n</div>`
+    },
+    {
+      title: "Container com Brilho Neon",
+      description: "Borda colorida com sombra brilhante (glow effect).",
+      code: `<div class="p-6 rounded-2xl bg-slate-950 border border-indigo-500/30 shadow-[0_0_30px_rgba(99,102,241,0.2)] max-w-xs text-center">\n  <h4 class="font-bold text-indigo-400">Brilho Neon</h4>\n  <p class="text-xs text-slate-400 mt-1">Destaque elementos importantes com sombras coloridas.</p>\n</div>`
+    }
+  ],
+  form: [
+    {
+      title: "Newsletter Minimalista",
+      description: "Formulário inline elegante para captura de e-mails.",
+      code: `<form class="flex gap-2 p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md shadow-md" onsubmit="alert('Inscrito!'); return false;">\n  <input type="email" placeholder="Seu melhor e-mail..." required class="flex-1 px-4 py-2 bg-transparent text-sm focus:outline-none" />\n  <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-colors">Inscrever</button>\n</form>`
+    }
+  ],
+  button: [
+    {
+      title: "Botão com Gradiente Animado",
+      description: "Gradiente vibrante que se move ou brilha ao passar o mouse.",
+      code: `<button class="px-6 py-3 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:to-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-purple-500/20 hover:scale-105 active:scale-95 transition-all text-sm">\n  Começar Agora 🚀\n</button>`
+    },
+    {
+      title: "Botão Outline Minimalista",
+      description: "Borda fina com preenchimento suave no hover.",
+      code: `<button class="px-5 py-2.5 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 font-semibold rounded-xl transition-all text-sm">\n  Saber Mais\n</button>`
+    }
+  ]
+};
+
 const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPlayground }) => {
   const [copied, setCopied] = useState(false);
   const [aiMode, setAiMode] = useState<string | null>(null);
   const [aiResponse, setAiResponse] = useState<{ title: string; content: string } | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [customPrompt, setCustomPrompt] = useState('');
+  const [currentSyntax, setCurrentSyntax] = useState(tag.syntax);
+
+  // Reset syntax when tag changes
+  useEffect(() => {
+    setCurrentSyntax(tag.syntax);
+  }, [tag]);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(tag.syntax);
+    navigator.clipboard.writeText(currentSyntax);
     setCopied(true);
     showSuccess("Código copiado!");
     setTimeout(() => setCopied(false), 2000);
@@ -31,7 +95,6 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
     setAiMode(mode);
     setAiResponse(null);
     
-    // Simulate AI generation delay
     setTimeout(() => {
       const response = generateAIResponse(tag.name, mode);
       setAiResponse(response);
@@ -52,7 +115,6 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
     let responseTitle = `Resposta da IA sobre ${tag.name}`;
     let responseContent = '';
 
-    // Dynamic simulated AI response engine based on keywords
     if (prompt.includes('cor') || prompt.includes('estilo') || prompt.includes('css') || prompt.includes('tailwind')) {
       responseContent = `Para estilizar a tag **${tag.name}** com cores e estilos modernos usando Tailwind CSS, você pode aplicar classes utilitárias diretamente no elemento. \n\n**Exemplo Prático:**\n\`\`\`html\n<!-- Aplicando bordas coloridas, sombras e transições -->\n<${tag.name.replace(/[<>]/g, '')} class="border-2 border-indigo-500 shadow-lg hover:scale-105 transition-transform duration-300">\n\`\`\`\n\nIsso adicionará uma borda azul/indigo, uma sombra elegante e um efeito de zoom suave ao passar o mouse!`;
     } else if (prompt.includes('seo') || prompt.includes('google') || prompt.includes('busca')) {
@@ -72,6 +134,31 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
       showSuccess("IA respondeu à sua pergunta!");
     }, 1000);
   };
+
+  const handleApplyRecipe = (recipeCode: string) => {
+    setCurrentSyntax(recipeCode);
+    showSuccess("Receita aplicada ao preview!");
+  };
+
+  const cleanTagName = tag.name.replace(/[<>]/g, '');
+  const recipes = stylingRecipes[cleanTagName] || [];
+
+  // DOM Tree Path calculation based on category
+  const getDomTreePath = () => {
+    const base = ['document', 'html', 'body'];
+    if (tag.category === 'Semântica') {
+      return [...base, 'main', tag.name];
+    } else if (tag.category === 'Formulários' && cleanTagName !== 'form') {
+      return [...base, 'form', tag.name];
+    } else if (tag.category === 'Tabelas' && cleanTagName !== 'table') {
+      return [...base, 'table', 'tr', tag.name];
+    } else if (tag.category === 'Listas' && cleanTagName !== 'ul') {
+      return [...base, 'ul', tag.name];
+    }
+    return [...base, tag.name];
+  };
+
+  const domTreePath = getDomTreePath();
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-8 space-y-10 pb-24">
@@ -95,13 +182,43 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
             </p>
           </div>
           <button
-            onClick={() => onOpenInPlayground(tag.syntax)}
+            onClick={() => onOpenInPlayground(currentSyntax)}
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 transition-all text-sm self-start md:self-center"
           >
             <Play size={16} fill="currentColor" />
             Abrir no Playground
           </button>
         </div>
+      </div>
+
+      {/* Visual DOM Tree Path */}
+      <div className="space-y-3 bg-card border border-border/60 p-5 rounded-2xl shadow-sm">
+        <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+          <Layers size={14} className="text-indigo-500" />
+          Caminho Visual na Árvore do DOM
+        </h3>
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          {domTreePath.map((node, idx) => {
+            const isLast = idx === domTreePath.length - 1;
+            return (
+              <React.Fragment key={idx}>
+                <div className={`px-3 py-1.5 rounded-xl text-xs font-mono font-semibold transition-all ${
+                  isLast 
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/10 scale-105' 
+                    : 'bg-muted text-muted-foreground hover:text-foreground'
+                }`}>
+                  {node}
+                </div>
+                {!isLast && (
+                  <span className="text-muted-foreground/40 font-bold text-xs">➔</span>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+        <p className="text-[11px] text-muted-foreground leading-relaxed pt-1">
+          A árvore do DOM (Document Object Model) representa a estrutura hierárquica do seu site. A tag <strong>{tag.name}</strong> geralmente é aninhada conforme o caminho acima.
+        </p>
       </div>
 
       {/* O que é & Para que serve */}
@@ -132,6 +249,37 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
         </div>
       </div>
 
+      {/* Tailwind Styling Recipes (If available) */}
+      {recipes.length > 0 && (
+        <div className="space-y-4">
+          <h3 className="text-xl font-bold flex items-center gap-2 text-foreground">
+            <Palette size={20} className="text-indigo-500" />
+            Receitas de Estilização com Tailwind CSS
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {recipes.map((recipe, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleApplyRecipe(recipe.code)}
+                className="p-4 bg-card border border-border/60 hover:border-indigo-500 hover:bg-indigo-50/5 dark:hover:bg-indigo-950/10 rounded-2xl text-left transition-all space-y-2 group"
+              >
+                <div className="flex items-center justify-between">
+                  <h4 className="font-bold text-sm text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    {recipe.title}
+                  </h4>
+                  <span className="text-[10px] font-bold bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400 px-2 py-0.5 rounded-full">
+                    Aplicar
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {recipe.description}
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Sintaxe & Exemplo Funcionando */}
       <div className="space-y-4">
         <h3 className="text-xl font-bold flex items-center gap-2 text-foreground">
@@ -153,7 +301,7 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
               </button>
             </div>
             <pre className="p-4 text-xs font-mono overflow-x-auto leading-relaxed flex-1">
-              <code>{tag.syntax}</code>
+              <code>{currentSyntax}</code>
             </pre>
           </div>
 
@@ -170,7 +318,7 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
                       <script src="https://cdn.tailwindcss.com"></script>
                     </head>
                     <body class="p-2 flex justify-center items-center bg-transparent">
-                      ${tag.syntax}
+                      ${currentSyntax}
                     </body>
                   </html>
                 `}
