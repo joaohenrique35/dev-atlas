@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { htmlTagsData, HTMLTag } from '../data/htmlTags';
-import { Search, BookOpen, Code, ChevronRight, ChevronDown, Sparkles, Layers, HelpCircle, Trophy } from 'lucide-react';
+import { Search, BookOpen, Code, ChevronRight, ChevronDown, Sparkles, Layers, HelpCircle, Trophy, Award } from 'lucide-react';
 
 interface SidebarProps {
   selectedTag: string;
