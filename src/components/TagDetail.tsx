@@ -67,6 +67,41 @@ const stylingRecipes: Record<string, Recipe[]> = {
       description: "Borda fina com preenchimento suave no hover.",
       code: `<button class="px-5 py-2.5 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 font-semibold rounded-xl transition-all text-sm">\n  Saber Mais\n</button>`
     }
+  ],
+  header: [
+    {
+      title: "Header Flutuante Moderno",
+      description: "Cabeçalho com efeito de desfoque de fundo (backdrop blur) e bordas arredondadas.",
+      code: `<header class="sticky top-4 mx-auto max-w-md flex items-center justify-between px-6 py-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 rounded-2xl shadow-lg">\n  <span class="font-black text-indigo-600 dark:text-indigo-400">DevAtlas</span>\n  <button class="px-3 py-1.5 bg-indigo-600 text-white text-xs font-bold rounded-xl">Entrar</button>\n</header>`
+    }
+  ],
+  nav: [
+    {
+      title: "Menu de Abas Deslizantes",
+      description: "Menu de navegação horizontal com efeito de pílula ativa.",
+      code: `<nav class="flex gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl max-w-xs">\n  <a href="#" class="flex-1 text-center py-2 text-xs font-bold bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 rounded-lg shadow-sm">Início</a>\n  <a href="#" class="flex-1 text-center py-2 text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white">Projetos</a>\n</nav>`
+    }
+  ],
+  aside: [
+    {
+      title: "Card de Destaque Lateral",
+      description: "Caixa de conteúdo complementar com borda colorida e ícone.",
+      code: `<aside class="p-5 bg-gradient-to-br from-indigo-50 to-violet-50 dark:from-indigo-950/20 dark:to-violet-950/20 border border-indigo-100 dark:border-indigo-900/50 rounded-2xl max-w-xs space-y-2">\n  <div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-xs uppercase tracking-wider">\n    <span>💡</span>\n    <span>Dica Semântica</span>\n  </div>\n  <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Use a tag aside para conteúdos complementares que enriquecem o artigo principal.</p>\n</aside>`
+    }
+  ],
+  h1: [
+    {
+      title: "Título com Gradiente Vibrante",
+      description: "Título principal com gradiente de cores moderno e espaçamento de letras.",
+      code: `<h1 class="text-4xl font-black tracking-tight bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent text-center py-2">\n  Crie o Futuro da Web\n</h1>`
+    }
+  ],
+  span: [
+    {
+      title: "Badge / Tag Destacada",
+      description: "Pequeno marcador colorido para destacar palavras-chave.",
+      code: `<p class="text-sm text-slate-600 dark:text-slate-400">\n  Desenvolvido com <span class="px-2.5 py-1 bg-emerald-100 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 font-bold text-xs rounded-full">HTML5 Semântico</span> para melhor acessibilidade.\n</p>`
+    }
   ]
 };
 

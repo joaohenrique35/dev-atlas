@@ -382,10 +382,10 @@ export const htmlTagsData: Record<string, HTMLTag> = {
     syntax: `<input \n  type="email" \n  placeholder="seu-email@exemplo.com" \n  required \n  class="w-full max-w-xs px-4 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"\n/>`,
     lineByLine: [
       { line: '<input', explanation: "Inicia a tag de entrada de dados." },
-      { line: '  type="email"', explanation: "Define o tipo de dado esperado (valida automaticamente o formato de e-mail)." },
+      { line: '  type="email"', explanation: "Define o tipo de dato esperado (valida automaticamente o formato de e-mail)." },
       { line: '  placeholder="..."', explanation: "Texto de ajuda exibido dentro do campo antes do usuário digitar." },
       { line: '  required', explanation: "Torna o preenchimento deste campo obrigatório para o envio do formulário." },
-      { line: '  class="..."', explanation: "Aplica estilos modernos e transições suaves com Tailwind." },
+      { line: '  class="..."', explanation: "Aplica styles modernos e transições suaves com Tailwind." },
       { line: '/>', explanation: "Fecha a tag auto-fechável." }
     ],
     attributes: [
@@ -476,7 +476,7 @@ export const htmlTagsData: Record<string, HTMLTag> = {
       "Incorporar sites que bloqueiam exibição em frames (via cabeçalho X-Frame-Options)."
     ],
     compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
-    curiosity: "Os iframes foram introduzidos pela Microsoft no Internet Explorer 3.0 em 1996 e revolucionaram a web ao permitir carregar partes de outras páginas sem recarregar tudo.",
+    curiosity: "Os iframes foram introduzidos pela Microsoft no Internet Explorer 3.0 in 1996 e revolucionaram a web ao permitir carregar partes de outras páginas sem recarregar tudo.",
     relatedTags: ["embed", "object"]
   },
   "audio": {
@@ -545,6 +545,156 @@ export const htmlTagsData: Record<string, HTMLTag> = {
     compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
     curiosity: "A tag <picture> foi criada por um grupo comunitário de desenvolvedores (Responsive Images Community Group) que se uniu para resolver o problema de imagens gigantes em celulares antes do W3C oficializar a tag.",
     relatedTags: ["img", "source", "figure"]
+  },
+  "header": {
+    name: "<header>",
+    category: "Semântica",
+    description: "Representa um grupo de introdução ou navegação.",
+    whatIs: "A tag <header> é um elemento semântico que define o cabeçalho de uma página ou de uma seção específica. Geralmente contém logotipos, títulos, menus de navegação ou formulários de busca.",
+    whatFor: [
+      "Criar o cabeçalho principal do site (global header).",
+      "Definir a introdução de um artigo ou seção de conteúdo.",
+      "Agrupar títulos e metadados de um post."
+    ],
+    syntax: `<header class="flex items-center justify-between p-5 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm max-w-md">\n  <div class="flex items-center gap-2">\n    <span class="text-xl">🚀</span>\n    <span class="font-bold text-slate-800 dark:text-white">DevAtlas</span>\n  </div>\n  <nav class="flex gap-3 text-xs font-semibold text-slate-500">\n    <a href="#" class="hover:text-indigo-600">Início</a>\n    <a href="#" class="hover:text-indigo-600">Sobre</a>\n  </nav>\n</header>`,
+    lineByLine: [
+      { line: '<header class="...">', explanation: "Inicia o cabeçalho semântico com borda inferior e sombra suave." },
+      { line: '  <div class="...">', explanation: "Agrupa o logotipo e o nome da marca." },
+      { line: '  <nav class="...">', explanation: "Insere um menu de navegação interno." },
+      { line: '</header>', explanation: "Fecha a tag do cabeçalho." }
+    ],
+    attributes: [],
+    bestPractices: [
+      "Use apenas um <header> principal por página para representar o cabeçalho do site.",
+      "Você pode usar múltiplos elementos <header> se eles estiverem dentro de seções independentes como <article> ou <section>.",
+      "Não confunda <header> com as tags de título <h1>-<h6> ou com a tag de metadados <head>."
+    ],
+    commonErrors: [
+      "Confundir <header> com <head> (que serve para metadados invisíveis do documento).",
+      "Aninhar um <header> dentro de outro <header>."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "Antes do HTML5, os desenvolvedores criavam cabeçalhos usando <div id=\"header\">. A introdução da tag <header> padronizou essa estrutura para leitores de tela e robôs de busca.",
+    relatedTags: ["footer", "nav", "main"]
+  },
+  "nav": {
+    name: "<nav>",
+    category: "Semântica",
+    description: "Representa uma seção com links de navegação.",
+    whatIs: "A tag <nav> é um elemento semântico que agrupa links de navegação, sejam eles internos (para seções da mesma página) ou externos (para outras páginas do site ou da web).",
+    whatFor: [
+      "Criar menus de navegação principais (header navigation).",
+      "Construir sumários ou tabelas de conteúdo (table of contents).",
+      "Criar menus de paginação ou links de rodapé."
+    ],
+    syntax: `<nav class="flex items-center gap-1 p-1.5 bg-slate-100 dark:bg-slate-800 rounded-xl max-w-xs">\n  <a href="#" class="flex-1 text-center py-2 text-xs font-bold bg-white dark:bg-slate-900 text-indigo-600 rounded-lg shadow-sm">Docs</a>\n  <a href="#" class="flex-1 text-center py-2 text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white">Playground</a>\n</nav>`,
+    lineByLine: [
+      { line: '<nav class="...">', explanation: "Inicia a seção de navegação com fundo cinza suave e bordas arredondadas." },
+      { line: '  <a href="..." class="...">Docs</a>', explanation: "Link de navegação ativo com estilo de aba destacada." },
+      { line: '  <a href="..." class="...">Playground</a>', explanation: "Link de navegação secundário." },
+      { line: '</nav>', explanation: "Fecha a tag de navegação." }
+    ],
+    attributes: [],
+    bestPractices: [
+      "Use <nav> apenas para blocos principais de links de navegação. Não há necessidade de usá-lo para todos os links soltos da página.",
+      "Adicione um atributo 'aria-label' se você tiver mais de um menu <nav> na mesma página (ex: aria-label=\"Menu Principal\" e aria-label=\"Menu do Rodapé\")."
+    ],
+    commonErrors: [
+      "Envolver listas de links irrelevantes ou externos (como links de redes sociais no rodapé) com a tag <nav>."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "Os leitores de tela usam a tag <nav> para permitir que usuários com deficiência visual pulem rapidamente a navegação e vão direto para o conteúdo principal da página.",
+    relatedTags: ["header", "footer", "a"]
+  },
+  "aside": {
+    name: "<aside>",
+    category: "Semântica",
+    description: "Representa conteúdo indiretamente relacionado ao conteúdo principal.",
+    whatIs: "A tag <aside> define uma seção de uma página que contém conteúdo que está indiretamente relacionado ao conteúdo principal ao seu redor (como barras laterais, anúncios, citações ou glossários).",
+    whatFor: [
+      "Criar barras laterais de navegação ou widgets (sidebars).",
+      "Apresentar caixas de publicidade ou anúncios.",
+      "Exibir citações destacadas (pull quotes) em artigos de blog."
+    ],
+    syntax: `<aside class="p-5 bg-indigo-50/50 border border-indigo-100 rounded-2xl max-w-xs space-y-3">\n  <h4 class="font-bold text-xs text-indigo-900 uppercase tracking-wider">💡 Dica Rápida</h4>\n  <p class="text-xs text-indigo-800/80 leading-relaxed">Você sabia que tags semânticas ajudam o Google a indexar melhor o seu site? Use-as sempre que possível!</p>\n</aside>`,
+    lineByLine: [
+      { line: '<aside class="...">', explanation: "Inicia a barra lateral semântica com fundo azul/indigo suave." },
+      { line: '  <h4 class="...">💡 Dica Rápida</h4>', explanation: "Título informativo interno." },
+      { line: '  <p class="...">...</p>', explanation: "Conteúdo complementar ou dica rápida." },
+      { line: '</aside>', explanation: "Fecha a tag aside." }
+    ],
+    attributes: [],
+    bestPractices: [
+      "Certifique-se de que o conteúdo dentro de <aside> faça sentido mesmo se for removido da página (ele deve ser complementar, não essencial).",
+      "Não use <aside> apenas para posicionar elementos na lateral usando CSS (use Flexbox/Grid para layout e <aside> apenas para semântica)."
+    ],
+    commonErrors: [
+      "Colocar conteúdo principal ou essencial para a compreensão do artigo dentro de um <aside>."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "A palavra 'aside' em inglês também é usada no teatro para descrever quando um ator fala diretamente com a plateia, fazendo um comentário que os outros personagens em cena não ouvem.",
+    relatedTags: ["article", "section", "main"]
+  },
+  "h1": {
+    name: "<h1>",
+    category: "Texto",
+    description: "Representa o título principal de nível mais alto.",
+    whatIs: "A tag <h1> define o título mais importante de uma página web. Ela estabelece o topo da hierarquia de títulos, que vai do <h1> ao <h6>.",
+    whatFor: [
+      "Definir o título principal de uma página ou artigo.",
+      "Indicar o assunto principal do documento para motores de busca.",
+      "Melhorar a acessibilidade estrutural da página."
+    ],
+    syntax: `<h1 class="text-3xl md:text-4xl font-black tracking-tight bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">\n  Domine o HTML5\n</h1>`,
+    lineByLine: [
+      { line: '<h1 class="...">', explanation: "Inicia o título principal aplicando classes de tamanho grande, negrito extra e gradiente de texto com Tailwind." },
+      { line: '  Domine o HTML5', explanation: "Texto do título principal." },
+      { line: '</h1>', explanation: "Fecha a tag de título principal." }
+    ],
+    attributes: [],
+    bestPractices: [
+      "Use apenas um único <h1> por página para garantir uma estrutura de SEO perfeita.",
+      "Mantenha a hierarquia correta (não pule de um <h1> direto para um <h3> sem passar pelo <h2>).",
+      "O texto do <h1> deve ser descritivo e resumir o assunto principal da página."
+    ],
+    commonErrors: [
+      "Usar múltiplos elementos <h1> na mesma página de forma desordenada.",
+      "Usar tags de título apenas para aumentar o tamanho do texto (use classes CSS de tamanho de fonte para isso)."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "O Google e outros motores de busca dão um peso enorme ao texto contido na tag <h1> para entender sobre o que é o seu site e decidir em quais pesquisas ele deve aparecer.",
+    relatedTags: ["div", "span", "a"]
+  },
+  "span": {
+    name: "<span>",
+    category: "Texto",
+    description: "Elemento de texto genérico em linha (inline).",
+    whatIs: "A tag <span> é um container genérico em linha (inline). Diferente de uma <div> (que é um elemento em bloco), o <span> não quebra a linha do texto, servindo para aplicar estilos ou scripts a partes específicas de um parágrafo.",
+    whatFor: [
+      "Estilizar uma palavra ou frase específica dentro de um parágrafo.",
+      "Adicionar ícones ou pequenos marcadores ao lado de textos.",
+      "Servir como alvo para manipulações dinâmicas de texto via JavaScript."
+    ],
+    syntax: `<p class="text-sm text-slate-600 dark:text-slate-400">\n  Aprenda a criar sites incríveis com o <span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-bold rounded-md">DevAtlas</span> hoje mesmo!\n</p>`,
+    lineByLine: [
+      { line: '<p class="...">', explanation: "Inicia um parágrafo de texto comum." },
+      { line: '  Aprenda a criar...', explanation: "Texto inicial do parágrafo." },
+      { line: '  <span class="...">DevAtlas</span>', explanation: "Aplica um fundo destacado e cor roxa apenas na palavra 'DevAtlas' sem quebrar a linha." },
+      { line: '  hoje mesmo!', explanation: "Texto final do parágrafo." },
+      { line: '</p>', explanation: "Fecha o parágrafo." }
+    ],
+    attributes: [],
+    bestPractices: [
+      "Use <span> apenas quando nenhum outro elemento semântico de texto (como <strong>, <em> ou <mark>) for adequado.",
+      "Mantenha o uso de spans limpo para não poluir a legibilidade do código HTML."
+    ],
+    commonErrors: [
+      "Usar <span> para criar blocos de layout (use <div> ou tags semânticas para isso).",
+      "Substituir tags semânticas de ênfase (como <strong> para negrito importante) por spans estilizados manualmente."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "O <span> é o irmão menor da <div>. Enquanto a <div> organiza a estrutura macro (layout), o <span> cuida dos detalhes micro (estilização fina de palavras e caracteres).",
+    relatedTags: ["div", "a", "h1"]
   }
 };
 
