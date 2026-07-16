@@ -15,6 +15,25 @@ const Index = () => {
   const [playgroundCode, setPlaygroundCode] = useState<string>('');
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
+  // Check for shared code in URL hash on mount
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#code=')) {
+      try {
+        const base64Code = hash.substring(6);
+        const decodedCode = decodeURIComponent(escape(atob(base64Code)));
+        if (decodedCode) {
+          setPlaygroundCode(decodedCode);
+          setActiveTab('playground');
+          // Clear hash to avoid re-triggering on reload
+          window.history.replaceState(null, '', window.location.pathname);
+        }
+      } catch (e) {
+        console.error("Erro ao decodificar código compartilhado:", e);
+      }
+    }
+  }, []);
+
   // Track viewed tags for achievements
   useEffect(() => {
     const viewed = JSON.parse(localStorage.getItem('devatlas_viewed_tags') || '[]');

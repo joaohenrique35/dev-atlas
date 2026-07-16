@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Play, RotateCcw, Copy, Check, Sparkles, Code, LayoutTemplate } from 'lucide-react';
+import { Play, RotateCcw, Copy, Check, Sparkles, Code, LayoutTemplate, Download, Share2 } from 'lucide-react';
 import { showSuccess } from '../utils/toast';
 
 interface PlaygroundProps {
@@ -85,6 +85,7 @@ const templates: Template[] = [
 const Playground: React.FC<PlaygroundProps> = ({ initialCode = '', tagName = 'img' }) => {
   const [code, setCode] = useState(initialCode);
   const [copied, setCopied] = useState(false);
+  const [shared, setShared] = useState(false);
 
   useEffect(() => {
     if (initialCode) {
@@ -107,6 +108,45 @@ const Playground: React.FC<PlaygroundProps> = ({ initialCode = '', tagName = 'im
   const handleLoadTemplate = (templateCode: string) => {
     setCode(templateCode);
     showSuccess("Template carregado com sucesso!");
+  };
+
+  const handleDownload = () => {
+    const fullHtml = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevAtlas Export - ${tagName}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6">
+  ${code}
+</body>
+</html>`;
+
+    const blob = new Blob([fullHtml], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `devatlas-${tagName.replace(/[<>]/g, '')}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showSuccess("Arquivo HTML baixado com sucesso!");
+  };
+
+  const handleShare = () => {
+    try {
+      const encodedCode = btoa(unescape(encodeURIComponent(code)));
+      const shareUrl = `${window.location.origin}${window.location.pathname}#code=${encodedCode}`;
+      navigator.clipboard.writeText(shareUrl);
+      setShared(true);
+      showSuccess("Link de compartilhamento copiado!");
+      setTimeout(() => setShared(false), 2000);
+    } catch (e) {
+      showSuccess("Erro ao gerar link de compartilhamento.");
+    }
   };
 
   return (
@@ -141,6 +181,22 @@ const Playground: React.FC<PlaygroundProps> = ({ initialCode = '', tagName = 'im
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors text-indigo-600 dark:text-indigo-400"
+            title="Gerar link de compartilhamento"
+          >
+            <Share2 size={14} />
+            {shared ? 'Compartilhado!' : 'Compartilhar'}
+          </button>
+          <button
+            onClick={handleDownload}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors"
+            title="Baixar como arquivo .html"
+          >
+            <Download size={14} />
+            Baixar HTML
+          </button>
           <button
             onClick={handleReset}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-lg hover:bg-muted transition-colors"

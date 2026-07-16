@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HTMLTag, generateAIResponse } from '../data/htmlTags';
 import { 
   Sparkles, BookOpen, HelpCircle, Code, CheckCircle2, AlertTriangle, 
-  Compass, ArrowRight, Play, Check, Copy, MessageSquare, Brain, Lightbulb, ArrowUpRight
+  Compass, ArrowRight, Play, Check, Copy, MessageSquare, Brain, Lightbulb, ArrowUpRight, Send
 } from 'lucide-react';
 import { showSuccess } from '../utils/toast';
 
@@ -17,6 +17,7 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
   const [aiMode, setAiMode] = useState<string | null>(null);
   const [aiResponse, setAiResponse] = useState<{ title: string; content: string } | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [customPrompt, setCustomPrompt] = useState('');
 
   const handleCopy = () => {
     navigator.clipboard.writeText(tag.syntax);
@@ -28,6 +29,7 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
   const handleAIAction = (mode: string) => {
     setIsGenerating(true);
     setAiMode(mode);
+    setAiResponse(null);
     
     // Simulate AI generation delay
     setTimeout(() => {
@@ -36,6 +38,39 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
       setIsGenerating(false);
       showSuccess("Explicação gerada pela IA!");
     }, 800);
+  };
+
+  const handleCustomPromptSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customPrompt.trim()) return;
+
+    setIsGenerating(true);
+    setAiMode('custom');
+    setAiResponse(null);
+
+    const prompt = customPrompt.toLowerCase();
+    let responseTitle = `Resposta da IA sobre ${tag.name}`;
+    let responseContent = '';
+
+    // Dynamic simulated AI response engine based on keywords
+    if (prompt.includes('cor') || prompt.includes('estilo') || prompt.includes('css') || prompt.includes('tailwind')) {
+      responseContent = `Para estilizar a tag **${tag.name}** com cores e estilos modernos usando Tailwind CSS, você pode aplicar classes utilitárias diretamente no elemento. \n\n**Exemplo Prático:**\n\`\`\`html\n<!-- Aplicando bordas coloridas, sombras e transições -->\n<${tag.name.replace(/[<>]/g, '')} class="border-2 border-indigo-500 shadow-lg hover:scale-105 transition-transform duration-300">\n\`\`\`\n\nIsso adicionará uma borda azul/indigo, uma sombra elegante e um efeito de zoom suave ao passar o mouse!`;
+    } else if (prompt.includes('seo') || prompt.includes('google') || prompt.includes('busca')) {
+      responseContent = `A tag **${tag.name}** desempenha um papel crucial no SEO (Search Engine Optimization). \n\nOs robôs de busca do Google utilizam a semântica do HTML para entender a estrutura da sua página. No caso de **${tag.name}**, ela ajuda a definir a relevância do conteúdo. \n\n**Dica de Ouro para SEO:**\n- Se for uma imagem, sempre use o atributo 'alt' descritivo.\n- Se for uma seção, garanta que ela possua um título (h2-h6) claro.\n- Evite usar divs genéricas para conteúdos que possuem tags semânticas específicas.`;
+    } else if (prompt.includes('acessibilidade') || prompt.includes('leitor') || prompt.includes('screen reader')) {
+      responseContent = `A acessibilidade (a11y) é um pilar fundamental do desenvolvimento web moderno. \n\nPara tornar a tag **${tag.name}** acessível para leitores de tela e navegação por teclado:\n1. Use atributos ARIA se necessário (ex: \`aria-label\` ou \`role\`).\n2. Garanta contraste de cores adequado nos textos internos.\n3. Nunca remova o contorno de foco (\`outline-none\`) sem fornecer uma alternativa visual clara para navegação via teclado (\`focus-visible:ring-2\`).`;
+    } else if (prompt.includes('centralizar') || prompt.includes('alinhar') || prompt.includes('meio')) {
+      responseContent = `Para centralizar a tag **${tag.name}** na tela, a melhor prática moderna é envolver o elemento em um container flexível (Flexbox) ou em grade (Grid) usando Tailwind CSS.\n\n**Exemplo com Flexbox:**\n\`\`\`html\n<div class="flex items-center justify-center min-h-[200px] bg-slate-50">\n  <!-- Seu elemento ${tag.name} aqui -->\n</div>\n\`\`\`\n\nAs classes \`flex\`, \`items-center\` (alinhamento vertical) e \`justify-center\` (alinhamento horizontal) garantem que o elemento fique perfeitamente no centro!`;
+    } else {
+      responseContent = `Excelente pergunta sobre a tag **${tag.name}**! \n\nPara este elemento, lembre-se sempre de que a semântica correta e o uso de atributos adequados são as chaves para um código limpo. \n\nSe você deseja aplicar estilos específicos, tente abrir esta tag no **Playground** (clicando no botão no topo da página) e experimente adicionar classes do Tailwind CSS como \`p-6\` (espaçamento), \`rounded-2xl\` (bordas arredondadas) ou \`bg-indigo-500\` (cor de fundo) para ver o resultado em tempo real!`;
+    }
+
+    setTimeout(() => {
+      setAiResponse({ title: responseTitle, content: responseContent });
+      setIsGenerating(false);
+      setCustomPrompt('');
+      showSuccess("IA respondeu à sua pergunta!");
+    }, 1000);
   };
 
   return (
@@ -316,6 +351,25 @@ const TagDetail: React.FC<TagDetailProps> = ({ tag, onNavigateToTag, onOpenInPla
             Compare com outra tag
           </button>
         </div>
+
+        {/* Custom Prompt Input */}
+        <form onSubmit={handleCustomPromptSubmit} className="relative flex items-center gap-2 bg-card border border-border rounded-2xl p-1.5 shadow-sm">
+          <input
+            type="text"
+            placeholder={`Pergunte qualquer coisa sobre ${tag.name} (ex: "Como mudar a cor?", "Como alinhar?", "SEO")...`}
+            value={customPrompt}
+            onChange={(e) => setCustomPrompt(e.target.value)}
+            className="flex-1 bg-transparent pl-4 pr-12 py-2.5 text-sm focus:outline-none"
+          />
+          <button
+            type="submit"
+            disabled={!customPrompt.trim() || isGenerating}
+            className="p-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white rounded-xl transition-all shrink-0"
+            title="Enviar pergunta"
+          >
+            <Send size={16} />
+          </button>
+        </form>
 
         {/* AI Response Area */}
         {aiResponse && (
