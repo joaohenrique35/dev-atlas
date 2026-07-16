@@ -243,7 +243,7 @@ export const htmlTagsData: Record<string, HTMLTag> = {
     ],
     bestPractices: [
       "Sempre use 'rel=\"noopener noreferrer\"' ao abrir links externos em novas abas.",
-      "Certifique-se de que o texto do link seja descritivo (evite 'clique aqui' ou 'saiba mais').",
+      "Certifique-se de que o text do link seja descritivo (evite 'clique aqui' ou 'saiba mais').",
       "Mantenha os links visivelmente distintos do texto comum (com sublinhado ou cor diferente)."
     ],
     commonErrors: [
@@ -407,6 +407,144 @@ export const htmlTagsData: Record<string, HTMLTag> = {
     compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
     curiosity: "O atributo 'type' do input aceita mais de 20 valores diferentes hoje em dia, transformando um simples campo de texto em um seletor de cores completo ou calendário nativo.",
     relatedTags: ["form", "label", "textarea", "select"]
+  },
+  "canvas": {
+    name: "<canvas>",
+    category: "Multimídia",
+    description: "Container para desenhar gráficos via scripts (JavaScript).",
+    whatIs: "A tag <canvas> é usada para desenhar gráficos, animações, jogos e manipulações de imagens em tempo real usando JavaScript.",
+    whatFor: [
+      "Criar jogos 2D e 3D interativos no navegador.",
+      "Gerar gráficos estatísticos e visualizações de dados dinâmicas.",
+      "Criar efeitos visuais de fundo e animações complexas."
+    ],
+    syntax: `<canvas id="demoCanvas" width="200" height="100" class="border border-dashed border-indigo-300 rounded-xl bg-indigo-50/20"></canvas>\n<script>\n  const c = document.getElementById("demoCanvas");\n  if (c) {\n    const ctx = c.getContext("2d");\n    ctx.fillStyle = "#6366f1";\n    ctx.fillRect(20, 20, 160, 60);\n  }\n</script>`,
+    lineByLine: [
+      { line: '<canvas id="..." ...>', explanation: "Inicia o elemento canvas com dimensões explícitas e borda tracejada." },
+      { line: '  const ctx = c.getContext("2d");', explanation: "Obtém o contexto de renderização 2D para desenhar formas." },
+      { line: '  ctx.fillStyle = "#6366f1";', explanation: "Define a cor de preenchimento (indigo)." },
+      { line: '  ctx.fillRect(20, 20, 160, 60);', explanation: "Desenha um retângulo preenchido nas coordenadas especificadas." },
+      { line: '</canvas>', explanation: "Fecha a tag do canvas." }
+    ],
+    attributes: [
+      { name: "width", description: "Largura do canvas em pixels (padrão é 300).", required: false },
+      { name: "height", description: "Altura do canvas em pixels (padrão é 150).", required: false }
+    ],
+    bestPractices: [
+      "Sempre defina 'width' e 'height' diretamente nos atributos da tag, não via CSS (o CSS estica a imagem, distorcendo os gráficos).",
+      "Forneça um conteúdo de fallback acessível dentro da tag para navegadores antigos ou leitores de tela."
+    ],
+    commonErrors: [
+      "Definir o tamanho do canvas apenas com CSS, resultando em desenhos borrados ou esticados.",
+      "Esquecer de verificar se o navegador suporta o contexto 2D antes de desenhar."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "A tag <canvas> foi originalmente criada pela Apple em 2004 para uso dentro do Dashboard do macOS e no navegador Safari, antes de ser padronizada pelo consórcio HTML5.",
+    relatedTags: ["svg", "img", "video"]
+  },
+  "iframe": {
+    name: "<iframe>",
+    category: "Estrutura",
+    description: "Incorpora outro documento HTML dentro da página atual.",
+    whatIs: "A tag <iframe> (Inline Frame) é usada para aninhar um documento HTML completo dentro de outro, criando uma janela independente.",
+    whatFor: [
+      "Incorporar mapas interativos (como Google Maps).",
+      "Inserir players de vídeo externos (como YouTube ou Vimeo).",
+      "Exibir widgets de redes sociais ou anúncios de terceiros."
+    ],
+    syntax: `<iframe \n  src="https://maps.google.com/maps?q=Paris&t=&z=13&ie=UTF8&iwloc=&output=embed" \n  width="100%" \n  height="200" \n  loading="lazy" \n  class="rounded-2xl border shadow-md"\n></iframe>`,
+    lineByLine: [
+      { line: '<iframe', explanation: "Inicia a tag do iframe." },
+      { line: '  src="..."', explanation: "Define a URL do documento ou serviço externo a ser incorporado." },
+      { line: '  width="100%"', explanation: "Define a largura do frame (responsivo)." },
+      { line: '  loading="lazy"', explanation: "Adia o carregamento do iframe até que ele esteja próximo da tela visível." },
+      { line: '></iframe>', explanation: "Fecha a tag do iframe." }
+    ],
+    attributes: [
+      { name: "src", description: "A URL da página a ser incorporada.", required: true },
+      { name: "sandbox", description: "Aplica restrições extras de segurança ao conteúdo do iframe.", required: false },
+      { name: "allow", description: "Define políticas de recursos (ex: câmera, microfone, tela cheia).", required: false },
+      { name: "loading", description: "Define se carrega imediatamente ('eager') ou sob demanda ('lazy').", required: false }
+    ],
+    bestPractices: [
+      "Sempre use o atributo 'sandbox' para restringir scripts maliciosos de sites de terceiros.",
+      "Utilize 'loading=\"lazy\"' para melhorar a performance de carregamento da página principal.",
+      "Sempre forneça um título descritivo com o atributo 'title' para acessibilidade."
+    ],
+    commonErrors: [
+      "Não usar 'title', quebrando a acessibilidade para leitores de tela.",
+      "Incorporar sites que bloqueiam exibição em frames (via cabeçalho X-Frame-Options)."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "Os iframes foram introduzidos pela Microsoft no Internet Explorer 3.0 em 1996 e revolucionaram a web ao permitir carregar partes de outras páginas sem recarregar tudo.",
+    relatedTags: ["embed", "object"]
+  },
+  "audio": {
+    name: "<audio>",
+    category: "Multimídia",
+    description: "Incorpora conteúdo de áudio nativo na página.",
+    whatIs: "A tag <audio> é usada para reproduzir arquivos de som, músicas ou podcasts diretamente no navegador, sem a necessidade de plugins externos.",
+    whatFor: [
+      "Reproduzir efeitos sonoros em jogos ou interações.",
+      "Criar players de música ou podcasts personalizados.",
+      "Adicionar narrações de acessibilidade para conteúdos textuais."
+    ],
+    syntax: `<audio \n  controls \n  class="w-full max-w-xs bg-slate-100 rounded-full p-1"\n>\n  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3" />\n  Seu navegador não suporta a tag de áudio.\n</audio>`,
+    lineByLine: [
+      { line: '<audio controls class="...">', explanation: "Inicia o elemento de áudio com os controles nativos de play, pause e volume habilitados." },
+      { line: '  <source src="..." type="audio/mp3" />', explanation: "Especifica o arquivo de áudio e seu formato para decodificação do navegador." },
+      { line: '  Seu navegador não suporta...', explanation: "Texto de fallback exibido apenas em navegadores obsoletos." },
+      { line: '</audio>', explanation: "Fecha a tag de áudio." }
+    ],
+    attributes: [
+      { name: "src", description: "URL do arquivo de áudio.", required: false },
+      { name: "controls", description: "Exibe os controles nativos de reprodução do navegador.", required: false },
+      { name: "autoplay", description: "Inicia a reprodução do áudio automaticamente ao carregar.", required: false },
+      { name: "loop", description: "Faz o áudio reiniciar automaticamente ao chegar ao fim.", required: false },
+      { name: "muted", description: "Inicia o áudio sem som por padrão.", required: false }
+    ],
+    bestPractices: [
+      "Evite usar 'autoplay' sem o consentimento do usuário, pois isso é considerado uma péssima prática de experiência de usuário.",
+      "Forneça múltiplos formatos (MP3, OGG, WAV) usando a tag <source> para garantir compatibilidade universal."
+    ],
+    commonErrors: [
+      "Usar autoplay com som ativado (bloqueado por padrão na maioria dos navegadores modernos).",
+      "Não fornecer controles visuais, deixando o usuário sem opção de pausar o som."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "Antes do HTML5, para ouvir uma música em um site, o usuário precisava ter instalado o plugin do Windows Media Player, RealPlayer ou Adobe Flash.",
+    relatedTags: ["video", "source", "track"]
+  },
+  "picture": {
+    name: "<picture>",
+    category: "Multimídia",
+    description: "Fornece múltiplas versões de uma imagem para design responsivo.",
+    whatIs: "A tag <picture> é um container que permite aos desenvolvedores fornecer diferentes fontes de imagem com base na largura da tela, densidade de pixels ou formato suportado.",
+    whatFor: [
+      "Exibir imagens cortadas de forma diferente para celular e computador (Art Direction).",
+      "Fornecer formatos modernos (como WebP/AVIF) com fallback em JPG/PNG para navegadores antigos.",
+      "Economizar dados móveis servindo imagens menores para celulares."
+    ],
+    syntax: `<picture class="block rounded-2xl overflow-hidden shadow-lg max-w-xs">\n  <source media="(max-width: 640px)" srcset="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=300" />\n  <source media="(min-width: 641px)" srcset="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=600" />\n  <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500" alt="Gradiente responsivo" class="w-full h-auto" />\n</picture>`,
+    lineByLine: [
+      { line: '<picture class="...">', explanation: "Inicia o container responsivo de imagem." },
+      { line: '  <source media="(max-width: 640px)" ... />', explanation: "Especifica a imagem menor a ser carregada em telas de celular (até 640px)." },
+      { line: '  <source media="(min-width: 641px)" ... />', explanation: "Especifica a imagem de alta resolução para telas maiores." },
+      { line: '  <img src="..." alt="..." />', explanation: "A tag <img> obrigatória que serve como fallback e renderiza a imagem final selecionada." },
+      { line: '</picture>', explanation: "Fecha a tag picture." }
+    ],
+    attributes: [],
+    bestPractices: [
+      "Sempre inclua uma tag <img> dentro de <picture> como último elemento, caso contrário nada será exibido.",
+      "Use <picture> principalmente para direção de arte (cortes diferentes) ou otimização de formatos modernos (AVIF/WebP)."
+    ],
+    commonErrors: [
+      "Esquecer de colocar a tag <img> interna (o navegador não renderizará nada).",
+      "Definir regras de mídia conflitantes ou confusas nos atributos 'media'."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "A tag <picture> foi criada por um grupo comunitário de desenvolvedores (Responsive Images Community Group) que se uniu para resolver o problema de imagens gigantes em celulares antes do W3C oficializar a tag.",
+    relatedTags: ["img", "source", "figure"]
   }
 };
 

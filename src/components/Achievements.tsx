@@ -32,7 +32,7 @@ const Achievements: React.FC = () => {
     });
   }, []);
 
-  const totalTagsAvailable = 9; // img, div, form, video, section, a, ul, table, button, input (approx 9-10)
+  const totalTagsAvailable = 14; // img, div, form, video, section, a, ul, table, button, input, canvas, iframe, audio, picture
   const tagsProgress = Math.min(Math.round((stats.viewedTags.length / totalTagsAvailable) * 100), 100);
 
   const achievementsList: Achievement[] = [

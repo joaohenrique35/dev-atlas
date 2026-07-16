@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CheckCircle2, XCircle, Award, RotateCcw, HelpCircle, ArrowRight, Sparkles } from 'lucide-react';
 import { showSuccess } from '../utils/toast';
+import Celebration from './Celebration';
 
 interface Question {
   id: number;
@@ -64,6 +65,7 @@ const Quiz: React.FC = () => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   const handleOptionSelect = (idx: number) => {
     if (isAnswered) return;
@@ -93,6 +95,10 @@ const Quiz: React.FC = () => {
       if (score > currentHighScore) {
         localStorage.setItem('devatlas_quiz_highscore', score.toString());
       }
+      
+      if (score === quizQuestions.length) {
+        setShowCelebration(true);
+      }
       setShowResults(true);
     }
   };
@@ -103,6 +109,7 @@ const Quiz: React.FC = () => {
     setIsAnswered(false);
     setScore(0);
     setShowResults(false);
+    setShowCelebration(false);
     showSuccess("Quiz reiniciado! Boa sorte! 🚀");
   };
 
@@ -112,6 +119,8 @@ const Quiz: React.FC = () => {
     const percentage = (score / quizQuestions.length) * 100;
     return (
       <div className="max-w-2xl mx-auto px-6 py-12 text-center space-y-8 animate-in fade-in duration-500">
+        {showCelebration && <Celebration />}
+        
         <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-xl shadow-indigo-500/20">
           <Award size={40} />
         </div>

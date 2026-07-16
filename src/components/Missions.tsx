@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Code, CheckCircle2, Play, RotateCcw, Sparkles, Trophy, ArrowRight, AlertCircle } from 'lucide-react';
 import { showSuccess, showError } from '../utils/toast';
+import Celebration from './Celebration';
 
 interface Mission {
   id: string;
@@ -122,17 +123,20 @@ const Missions: React.FC = () => {
   const [code, setCode] = useState(missionsList[0].startingCode);
   const [completedMissions, setCompletedMissions] = useState<string[]>([]);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   useEffect(() => {
     const completed = JSON.parse(localStorage.getItem('devatlas_completed_missions') || '[]');
     setCompletedMissions(completed);
     setCode(missionsList[activeMissionIdx].startingCode);
     setValidationError(null);
+    setShowCelebration(false);
   }, [activeMissionIdx]);
 
   const handleReset = () => {
     setCode(missionsList[activeMissionIdx].startingCode);
     setValidationError(null);
+    setShowCelebration(false);
     showSuccess("Código restaurado para o padrão!");
   };
 
@@ -143,6 +147,7 @@ const Missions: React.FC = () => {
     if (result.success) {
       setValidationError(null);
       showSuccess(result.message);
+      setShowCelebration(true);
       
       if (!completedMissions.includes(currentMission.id)) {
         const updated = [...completedMissions, currentMission.id];
@@ -151,6 +156,7 @@ const Missions: React.FC = () => {
       }
     } else {
       setValidationError(result.message);
+      setShowCelebration(false);
       showError("Alguns requisitos não foram atendidos.");
     }
   };
@@ -160,6 +166,8 @@ const Missions: React.FC = () => {
 
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] bg-background">
+      {showCelebration && <Celebration />}
+      
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between px-6 py-4 border-b border-border bg-card gap-4">
         <div className="flex items-center gap-2">
