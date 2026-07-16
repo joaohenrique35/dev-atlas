@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { htmlTagsData, HTMLTag } from '../data/htmlTags';
-import { Search, BookOpen, Code, ChevronRight, ChevronDown, Sparkles, Layers, HelpCircle } from 'lucide-react';
+import { Search, BookOpen, Code, ChevronRight, ChevronDown, Sparkles, Layers, HelpCircle, Trophy } from 'lucide-react';
 
 interface SidebarProps {
   selectedTag: string;
   onSelectTag: (tagName: string) => void;
-  activeTab: 'docs' | 'playground' | 'quiz';
-  setActiveTab: (tab: 'docs' | 'playground' | 'quiz') => void;
+  activeTab: 'docs' | 'playground' | 'quiz' | 'achievements';
+  setActiveTab: (tab: 'docs' | 'playground' | 'quiz' | 'achievements') => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -75,39 +75,54 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Navigation Tabs */}
       <div className="px-4 pt-4">
-        <div className="grid grid-cols-3 gap-1 p-1 bg-muted rounded-xl">
+        <div className="grid grid-cols-4 gap-1 p-1 bg-muted rounded-xl">
           <button
             onClick={() => setActiveTab('docs')}
-            className={`flex items-center justify-center gap-1.5 py-2 text-[11px] font-semibold rounded-lg transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 text-[10px] font-semibold rounded-lg transition-all ${
               activeTab === 'docs'
                 ? 'bg-background text-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
+            title="Documentação"
           >
             <BookOpen size={12} />
             Docs
           </button>
           <button
             onClick={() => setActiveTab('playground')}
-            className={`flex items-center justify-center gap-1.5 py-2 text-[11px] font-semibold rounded-lg transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 text-[10px] font-semibold rounded-lg transition-all ${
               activeTab === 'playground'
                 ? 'bg-background text-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
+            title="Playground"
           >
             <Code size={12} />
-            Playground
+            Play
           </button>
           <button
             onClick={() => setActiveTab('quiz')}
-            className={`flex items-center justify-center gap-1.5 py-2 text-[11px] font-semibold rounded-lg transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 text-[10px] font-semibold rounded-lg transition-all ${
               activeTab === 'quiz'
                 ? 'bg-background text-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
+            title="Quiz"
           >
             <HelpCircle size={12} />
             Quiz
+          </button>
+          <button
+            onClick={() => setActiveTab('achievements')}
+            className={`flex flex-col items-center justify-center py-1.5 text-[10px] font-semibold rounded-lg transition-all ${
+              activeTab === 'achievements'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+            title="Conquistas"
+          >
+            <Trophy size={12} />
+            Medalhas
           </button>
         </div>
       </div>

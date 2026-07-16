@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import TagDetail from '../components/TagDetail';
 import Playground from '../components/Playground';
 import Quiz from '../components/Quiz';
+import Achievements from '../components/Achievements';
 import { htmlTagsData } from '../data/htmlTags';
 import { Search, Sparkles, Compass, Code, BookOpen, Moon, Sun, Layers } from 'lucide-react';
 import { MadeWithDyad } from "@/components/made-with-dyad";
 
 const Index = () => {
   const [selectedTag, setSelectedTag] = useState<string>('img');
-  const [activeTab, setActiveTab] = useState<'docs' | 'playground' | 'quiz'>('docs');
+  const [activeTab, setActiveTab] = useState<'docs' | 'playground' | 'quiz' | 'achievements'>('docs');
   const [searchQuery, setSearchQuery] = useState('');
   const [playgroundCode, setPlaygroundCode] = useState<string>('');
   const [darkMode, setDarkMode] = useState<boolean>(false);
+
+  // Track viewed tags for achievements
+  useEffect(() => {
+    const viewed = JSON.parse(localStorage.getItem('devatlas_viewed_tags') || '[]');
+    if (!viewed.includes(selectedTag)) {
+      const updated = [...viewed, selectedTag];
+      localStorage.setItem('devatlas_viewed_tags', JSON.stringify(updated));
+    }
+  }, [selectedTag]);
+
+  // Track playground usage
+  useEffect(() => {
+    if (activeTab === 'playground') {
+      localStorage.setItem('devatlas_playground_used', 'true');
+    }
+  }, [activeTab]);
 
   const handleSelectTag = (tagName: string) => {
     const cleanName = tagName.replace(/[<>]/g, '');
@@ -132,8 +149,10 @@ const Index = () => {
             initialCode={playgroundCode || currentTagData.syntax}
             tagName={currentTagData.name}
           />
-        ) : (
+        ) : activeTab === 'quiz' ? (
           <Quiz />
+        ) : (
+          <Achievements />
         )}
 
         {/* Footer */}
