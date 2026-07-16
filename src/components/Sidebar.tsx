@@ -5,8 +5,8 @@ import { Search, BookOpen, Code, ChevronRight, ChevronDown, Sparkles, Layers, He
 interface SidebarProps {
   selectedTag: string;
   onSelectTag: (tagName: string) => void;
-  activeTab: 'docs' | 'playground' | 'quiz' | 'achievements';
-  setActiveTab: (tab: 'docs' | 'playground' | 'quiz' | 'achievements') => void;
+  activeTab: 'docs' | 'playground' | 'quiz' | 'missions' | 'achievements';
+  setActiveTab: (tab: 'docs' | 'playground' | 'quiz' | 'missions' | 'achievements') => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -75,53 +75,65 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Navigation Tabs */}
       <div className="px-4 pt-4">
-        <div className="grid grid-cols-4 gap-1 p-1 bg-muted rounded-xl">
+        <div className="grid grid-cols-5 gap-0.5 p-1 bg-muted rounded-xl">
           <button
             onClick={() => setActiveTab('docs')}
-            className={`flex flex-col items-center justify-center py-1.5 text-[10px] font-semibold rounded-lg transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 text-[9px] font-semibold rounded-lg transition-all ${
               activeTab === 'docs'
                 ? 'bg-background text-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
             title="Documentação"
           >
-            <BookOpen size={12} />
+            <BookOpen size={11} />
             Docs
           </button>
           <button
             onClick={() => setActiveTab('playground')}
-            className={`flex flex-col items-center justify-center py-1.5 text-[10px] font-semibold rounded-lg transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 text-[9px] font-semibold rounded-lg transition-all ${
               activeTab === 'playground'
                 ? 'bg-background text-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
             title="Playground"
           >
-            <Code size={12} />
+            <Code size={11} />
             Play
           </button>
           <button
             onClick={() => setActiveTab('quiz')}
-            className={`flex flex-col items-center justify-center py-1.5 text-[10px] font-semibold rounded-lg transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 text-[9px] font-semibold rounded-lg transition-all ${
               activeTab === 'quiz'
                 ? 'bg-background text-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
             title="Quiz"
           >
-            <HelpCircle size={12} />
+            <HelpCircle size={11} />
             Quiz
           </button>
           <button
+            onClick={() => setActiveTab('missions')}
+            className={`flex flex-col items-center justify-center py-1.5 text-[9px] font-semibold rounded-lg transition-all ${
+              activeTab === 'missions'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+            title="Desafios"
+          >
+            <Trophy size={11} />
+            Desafios
+          </button>
+          <button
             onClick={() => setActiveTab('achievements')}
-            className={`flex flex-col items-center justify-center py-1.5 text-[10px] font-semibold rounded-lg transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 text-[9px] font-semibold rounded-lg transition-all ${
               activeTab === 'achievements'
                 ? 'bg-background text-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
             title="Conquistas"
           >
-            <Trophy size={12} />
+            <Award size={11} />
             Medalhas
           </button>
         </div>

@@ -15,17 +15,20 @@ const Achievements: React.FC = () => {
     viewedTags: [] as string[],
     quizHighScore: 0,
     playgroundUsed: false,
+    completedMissions: [] as string[],
   });
 
   useEffect(() => {
     const viewed = JSON.parse(localStorage.getItem('devatlas_viewed_tags') || '[]');
     const score = parseInt(localStorage.getItem('devatlas_quiz_highscore') || '0', 10);
     const playground = localStorage.getItem('devatlas_playground_used') === 'true';
+    const completed = JSON.parse(localStorage.getItem('devatlas_completed_missions') || '[]');
 
     setStats({
       viewedTags: viewed,
       quizHighScore: score,
       playgroundUsed: playground,
+      completedMissions: completed,
     });
   }, []);
 
@@ -66,12 +69,12 @@ const Achievements: React.FC = () => {
       isUnlocked: stats.quizHighScore === 5,
     },
     {
-      id: 'html_expert',
-      title: 'Especialista Web',
-      description: 'Dominou completamente a estrutura básica estudando todas as tags.',
+      id: 'mission_master',
+      title: 'Mestre dos Desafios',
+      description: 'Completou com sucesso todas as missões práticas de código.',
       icon: <Award size={20} />,
-      requirement: 'Visualizar todas as tags',
-      isUnlocked: stats.viewedTags.length >= totalTagsAvailable,
+      requirement: 'Completar 3 missões práticas',
+      isUnlocked: stats.completedMissions.length >= 3,
     },
   ];
 
@@ -104,12 +107,12 @@ const Achievements: React.FC = () => {
         </div>
 
         <div className="p-6 bg-card border border-border rounded-2xl space-y-2 shadow-sm">
-          <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Recorde no Quiz</span>
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Missões Concluídas</span>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-3xl font-black text-indigo-600 dark:text-indigo-400">{stats.quizHighScore}</span>
-            <span className="text-sm text-muted-foreground">/ 5 acertos</span>
+            <span className="text-3xl font-black text-indigo-600 dark:text-indigo-400">{stats.completedMissions.length}</span>
+            <span className="text-sm text-muted-foreground">/ 3 desafios</span>
           </div>
-          <p className="text-xs text-muted-foreground">Sua maior pontuação registrada</p>
+          <p className="text-xs text-muted-foreground">Desafios práticos validados</p>
         </div>
 
         <div className="p-6 bg-card border border-border rounded-2xl space-y-2 shadow-sm">

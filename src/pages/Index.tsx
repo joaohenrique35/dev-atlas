@@ -4,13 +4,14 @@ import TagDetail from '../components/TagDetail';
 import Playground from '../components/Playground';
 import Quiz from '../components/Quiz';
 import Achievements from '../components/Achievements';
+import Missions from '../components/Missions';
 import { htmlTagsData } from '../data/htmlTags';
 import { Search, Sparkles, Compass, Code, BookOpen, Moon, Sun, Layers } from 'lucide-react';
 import { MadeWithDyad } from "@/components/made-with-dyad";
 
 const Index = () => {
   const [selectedTag, setSelectedTag] = useState<string>('img');
-  const [activeTab, setActiveTab] = useState<'docs' | 'playground' | 'quiz' | 'achievements'>('docs');
+  const [activeTab, setActiveTab] = useState<'docs' | 'playground' | 'quiz' | 'missions' | 'achievements'>('docs');
   const [searchQuery, setSearchQuery] = useState('');
   const [playgroundCode, setPlaygroundCode] = useState<string>('');
   const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -170,6 +171,8 @@ const Index = () => {
           />
         ) : activeTab === 'quiz' ? (
           <Quiz />
+        ) : activeTab === 'missions' ? (
+          <Missions />
         ) : (
           <Achievements />
         )}
