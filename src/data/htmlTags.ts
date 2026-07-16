@@ -632,7 +632,7 @@ export const htmlTagsData: Record<string, HTMLTag> = {
       "Colocar conteúdo principal ou essencial para a compreensão do artigo dentro de um <aside>."
     ],
     compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
-    curiosity: "A palavra 'aside' em inglês também é usada no teatro para descrever quando um ator fala diretamente com a plateia, fazendo um comentário que os outros personagens em cena não ouvem.",
+    curiosity: "A palavra 'aside' em inglês também é usada no teatro para descrever quando um actor fala diretamente com a plateia, fazendo um comentário que os outros personagens em cena não ouvem.",
     relatedTags: ["article", "section", "main"]
   },
   "h1": {
@@ -695,6 +695,266 @@ export const htmlTagsData: Record<string, HTMLTag> = {
     compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
     curiosity: "O <span> é o irmão menor da <div>. Enquanto a <div> organiza a estrutura macro (layout), o <span> cuida dos detalhes micro (estilização fina de palavras e caracteres).",
     relatedTags: ["div", "a", "h1"]
+  },
+  "p": {
+    name: "<p>",
+    category: "Texto",
+    description: "Representa um parágrafo de texto.",
+    whatIs: "A tag <p> é usada para definir blocos de texto ou parágrafos. Ela adiciona automaticamente uma margem vertical antes e depois do bloco para separar visualmente os textos.",
+    whatFor: [
+      "Exibir blocos de texto legíveis em artigos, notícias e descrições.",
+      "Organizar a leitura de conteúdos longos em partes menores.",
+      "Melhorar a legibilidade e a estrutura de leitura da página."
+    ],
+    syntax: `<p class="text-base text-slate-700 dark:text-slate-300 leading-relaxed">\n  O HTML5 é a linguagem de marcação padrão para criar páginas web incríveis.\n</p>`,
+    lineByLine: [
+      { line: '<p class="...">', explanation: "Inicia o parágrafo aplicando classes de tamanho, cor e espaçamento de linha (leading-relaxed) do Tailwind." },
+      { line: '  O HTML5 é a...', explanation: "Texto interno do parágrafo." },
+      { line: '</p>', explanation: "Fecha a tag de parágrafo." }
+    ],
+    attributes: [],
+    bestPractices: [
+      "Sempre use <p> para textos corridos em vez de usar quebras de linha (<br>) repetidas.",
+      "Evite colocar elementos em bloco (como <div> ou <ul>) dentro de um parágrafo, pois isso é inválido no HTML."
+    ],
+    commonErrors: [
+      "Aninhar elementos em bloco dentro de <p>.",
+      "Usar <p> vazio apenas para criar espaçamento vertical (use margens CSS para isso)."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "A tag <p> é uma das tags mais fundamentais e antigas do HTML, existindo desde a primeira versão da linguagem em 1991.",
+    relatedTags: ["span", "div", "h1"]
+  },
+  "main": {
+    name: "<main>",
+    category: "Semântica",
+    description: "Define o conteúdo principal e exclusivo do documento.",
+    whatIs: "A tag <main> engloba o conteúdo central e dominante de uma página web. Este conteúdo deve ser exclusivo e não conter elementos repetidos em outras páginas, como cabeçalhos, rodapés ou menus globais.",
+    whatFor: [
+      "Indicar aos motores de busca e leitores de tela onde começa o conteúdo real da página.",
+      "Melhorar a acessibilidade, permitindo que usuários pulem menus repetitivos diretamente para o conteúdo principal.",
+      "Estruturar semanticamente o layout moderno do site."
+    ],
+    syntax: `<main class="flex-1 max-w-4xl mx-auto p-6 space-y-6">\n  <h1 class="text-3xl font-bold">Painel de Controle</h1>\n  <p class="text-muted-foreground">Bem-vindo ao seu painel principal.</p>\n</main>`,
+    lineByLine: [
+      { line: '<main class="...">', explanation: "Inicia o container principal com largura máxima centralizada e espaçamento interno." },
+      { line: '  <h1>...</h1>', explanation: "Título principal do conteúdo exclusivo." },
+      { line: '  <p>...</p>', explanation: "Texto descritivo interno." },
+      { line: '</main>', explanation: "Fecha a tag de conteúdo principal." }
+    ],
+    attributes: [],
+    bestPractices: [
+      "Deve haver apenas um elemento <main> visível por página.",
+      "Não aninhe <main> dentro de elementos como <header>, <nav> ou <footer>."
+    ],
+    commonErrors: [
+      "Incluir mais de um elemento <main> ativo na mesma página.",
+      "Colocar o menu de navegação global ou o rodapé dentro da tag <main>."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "A tag <main> foi introduzida no HTML5 para resolver a falta de um container semântico que representasse o 'coração' do conteúdo de uma página, que antes era feito com <div id=\"content\">.",
+    relatedTags: ["header", "footer", "section", "article"]
+  },
+  "footer": {
+    name: "<footer>",
+    category: "Semântica",
+    description: "Representa o rodapé de uma página ou seção.",
+    whatIs: "A tag <footer> define o rodapé de um documento ou de uma seção específica. Geralmente contém informações de direitos autorais, links de termos de uso, redes sociais e dados de contato.",
+    whatFor: [
+      "Criar o rodapé global do site (global footer).",
+      "Adicionar metadados, autoria ou links relacionados ao final de um artigo.",
+      "Apresentar informações de copyright e links institucionais."
+    ],
+    syntax: `<footer class="py-6 border-t border-border text-center text-xs text-muted-foreground bg-card rounded-2xl">\n  <p>© 2025 DevAtlas. Todos os direitos reservados.</p>\n</footer>`,
+    lineByLine: [
+      { line: '<footer class="...">', explanation: "Inicia o rodapé com espaçamento vertical, borda superior e fundo estilizado." },
+      { line: '  <p>© 2025 DevAtlas...</p>', explanation: "Texto de direitos autorais interno." },
+      { line: '</footer>', explanation: "Fecha a tag de rodapé." }
+    ],
+    attributes: [],
+    bestPractices: [
+      "Use <footer> para agrupar informações de encerramento e contatos.",
+      "Assim como o <header>, você pode usar múltiplos footers na página se eles estiverem dentro de seções independentes como <article>."
+    ],
+    commonErrors: [
+      "Colocar o conteúdo principal do site dentro do rodapé.",
+      "Confundir <footer> com elementos de layout puramente visuais."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "O uso de rodapés semânticos ajuda os leitores de tela a identificar rapidamente onde terminam as informações principais e onde começam os metadados e links institucionais.",
+    relatedTags: ["header", "main", "aside"]
+  },
+  "select": {
+    name: "<select>",
+    category: "Formulários",
+    description: "Cria uma caixa de seleção suspensa (dropdown).",
+    whatIs: "A tag <select> é usada para criar uma lista suspensa de opções, permitindo que o usuário selecione um ou mais itens de uma lista pré-definida.",
+    whatFor: [
+      "Criar menus de seleção de países, estados ou cidades.",
+      "Permitir a escolha de categorias ou filtros em pesquisas.",
+      "Coletar preferências do usuário em formulários de cadastro."
+    ],
+    syntax: `<select class="w-full max-w-xs px-3 py-2 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">\n  <option value="html">HTML5</option>\n  <option value="css">CSS3</option>\n  <option value="js">JavaScript</option>\n</select>`,
+    lineByLine: [
+      { line: '<select class="...">', explanation: "Inicia o menu suspenso aplicando estilos modernos de borda e foco com Tailwind." },
+      { line: '  <option value="html">HTML5</option>', explanation: "Primeira opção selecionável com seu respectivo valor de envio." },
+      { line: '  <option value="css">CSS3</option>', explanation: "Segunda opção selecionável." },
+      { line: '  <option value="js">JavaScript</option>', explanation: "Terceira opção selecionável." },
+      { line: '</select>', explanation: "Fecha a tag de seleção." }
+    ],
+    attributes: [
+      { name: "name", description: "Nome do campo enviado junto com o formulário.", required: false },
+      { name: "required", description: "Torna a seleção de uma opção obrigatória.", required: false },
+      { name: "multiple", description: "Permite que o usuário selecione múltiplas opções (segurando Ctrl/Cmd).", required: false },
+      { name: "disabled", description: "Desativa o menu suspenso.", required: false }
+    ],
+    bestPractices: [
+      "Sempre use a tag <option> para definir os itens dentro do <select>.",
+      "Forneça uma primeira opção vazia ou desabilitada como instrução (ex: 'Selecione uma opção...').",
+      "Use <optgroup> para agrupar opções relacionadas em listas muito longas."
+    ],
+    commonErrors: [
+      "Esquecer de definir o atributo 'value' nas tags <option>, o que faz com que o texto visível seja enviado como valor padrão.",
+      "Não associar um <label> ao elemento <select>."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "O visual do <select> nativo varia drasticamente entre sistemas operacionais (Windows, macOS, iOS, Android) para se adaptar aos padrões de usabilidade de cada plataforma.",
+    relatedTags: ["form", "input", "textarea"]
+  },
+  "textarea": {
+    name: "<textarea>",
+    category: "Formulários",
+    description: "Campo de entrada de texto multilinha.",
+    whatIs: "A tag <textarea> cria um campo de entrada de texto que permite ao usuário digitar várias linhas de texto, ideal para comentários, mensagens ou descrições longas.",
+    whatFor: [
+      "Criar campos de comentários ou feedback.",
+      "Permitir o envio de mensagens de contato detalhadas.",
+      "Coletar biografias ou descrições longas de usuários."
+    ],
+    syntax: `<textarea \n  rows="4" \n  placeholder="Escreva sua mensagem aqui..." \n  class="w-full max-w-md px-4 py-3 bg-background border border-border rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all resize-none"\n></textarea>`,
+    lineByLine: [
+      { line: '<textarea', explanation: "Inicia a tag de entrada multilinha." },
+      { line: '  rows="4"', explanation: "Define a altura inicial do campo em número de linhas de texto." },
+      { line: '  placeholder="..."', explanation: "Texto de ajuda temporário exibido antes da digitação." },
+      { line: '  class="..."', explanation: "Aplica estilos modernos e desativa o redimensionamento manual (resize-none) com Tailwind." },
+      { line: '></textarea>', explanation: "Fecha a tag textarea (não é auto-fechável, diferente do <input>)." }
+    ],
+    attributes: [
+      { name: "rows", description: "Define a altura visível do campo em linhas.", required: false },
+      { name: "cols", description: "Define a largura visível do campo em caracteres por linha.", required: false },
+      { name: "placeholder", description: "Texto de ajuda temporário.", required: false },
+      { name: "required", description: "Torna o preenchimento do campo obrigatório.", required: false },
+      { name: "disabled", description: "Desativa o campo de texto.", required: false }
+    ],
+    bestPractices: [
+      "Sempre use a tag de fechamento correspondente </textarea>.",
+      "Use a classe CSS 'resize-none' ou 'resize-y' para controlar se o usuário pode redimensionar o campo na tela.",
+      "Associe sempre um <label> para garantir acessibilidade."
+    ],
+    commonErrors: [
+      "Tentar definir o valor padrão usando o atributo 'value' (o valor padrão do textarea deve ser colocado entre as tags de abertura e fechamento).",
+      "Esquecer de fechar a tag </textarea>."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "Diferente do <input type=\"text\">, o <textarea> preserva automaticamente as quebras de linha (enters) digitadas pelo usuário ao enviar os dados.",
+    relatedTags: ["form", "input", "select"]
+  },
+  "details": {
+    name: "<details>",
+    category: "Estrutura",
+    description: "Cria um widget de revelação interativo (accordion nativo).",
+    whatIs: "A tag <details> cria um container interativo que o usuário pode abrir ou fechar para revelar informações adicionais. É ideal para criar seções de Perguntas Frequentes (FAQ) sem JavaScript.",
+    whatFor: [
+      "Criar seções de Perguntas Frequentes (FAQ) expansíveis.",
+      "Ocultar detalhes técnicos ou códigos que o usuário só vê se desejar.",
+      "Criar menus ou painéis retráteis simples."
+    ],
+    syntax: `<details class="p-4 border border-border rounded-2xl bg-card max-w-md group">\n  <summary class="font-bold text-sm cursor-pointer select-none list-none flex items-center justify-between">\n    <span>Como funciona o DevAtlas?</span>\n    <span class="transition-transform duration-300 group-open:rotate-180">▼</span>\n  </summary>\n  <p class="mt-3 text-xs text-muted-foreground leading-relaxed border-t border-border/40 pt-3">\n    O DevAtlas é uma enciclopédia interativa que ajuda você a dominar o HTML5 e o Tailwind CSS de forma prática e divertida!\n  </p>\n</details>`,
+    lineByLine: [
+      { line: '<details class="...">', explanation: "Inicia o container expansível aplicando estilos de borda e arredondamento." },
+      { line: '  <summary class="...">', explanation: "Define o título visível e clicável do widget (o cabeçalho do accordion)." },
+      { line: '    <span>...</span>', explanation: "Texto da pergunta ou título." },
+      { line: '  </summary>', explanation: "Fecha o cabeçalho do widget." },
+      { line: '  <p class="...">...</p>', explanation: "Conteúdo oculto que será revelado quando o usuário clicar no summary." },
+      { line: '</details>', explanation: "Fecha o widget de revelação." }
+    ],
+    attributes: [
+      { name: "open", description: "Indica que o widget deve iniciar aberto por padrão.", required: false }
+    ],
+    bestPractices: [
+      "Sempre inclua uma tag <summary> como primeiro filho direto de <details> para servir de cabeçalho clicável.",
+      "Use classes CSS para estilizar o estado aberto usando o seletor 'group-open:' ou 'open:' do Tailwind."
+    ],
+    commonErrors: [
+      "Não incluir a tag <summary>, o que faz o navegador exibir um título padrão sem graça como 'Detalhes'.",
+      "Usar <details> para conteúdos extremamente importantes que o usuário não pode deixar de ver."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "A tag <details> permite criar accordions e menus expansíveis complexos de forma 100% nativa, sem precisar escrever uma única linha de código JavaScript para controlar o estado aberto/fechado.",
+    relatedTags: ["summary", "div", "section"]
+  },
+  "summary": {
+    name: "<summary>",
+    category: "Estrutura",
+    description: "Define o cabeçalho visível de um elemento <details>.",
+    whatIs: "A tag <summary> serve exclusivamente como o cabeçalho clicável e visível de um elemento <details>. Ao clicar nele, o conteúdo oculto do <details> é exibido ou ocultado.",
+    whatFor: [
+      "Definir o título clicável de um accordion ou FAQ.",
+      "Servir como o botão de controle de abertura do widget <details>.",
+      "Melhorar a acessibilidade de elementos expansíveis."
+    ],
+    syntax: `<summary class="font-bold text-sm cursor-pointer select-none list-none flex items-center justify-between">\n  <span>Clique para ver o segredo</span>\n  <span>👁️</span>\n</summary>`,
+    lineByLine: [
+      { line: '<summary class="...">', explanation: "Inicia o cabeçalho clicável com cursor de clique, desativando a seleção de texto e ocultando a seta padrão do navegador (list-none)." },
+      { line: '  <span>...</span>', explanation: "Texto visível do cabeçalho." },
+      { line: '</summary>', explanation: "Fecha a tag de cabeçalho." }
+    ],
+    attributes: [],
+    bestPractices: [
+      "Deve ser sempre o primeiro filho direto de um elemento <details>.",
+      "Use a classe 'list-none' ou estilos CSS específicos para remover a seta padrão do navegador se quiser criar um design personalizado."
+    ],
+    commonErrors: [
+      "Usar <summary> fora de um elemento <details> (ele não terá nenhum comportamento ou utilidade).",
+      "Colocar elementos interativos complexos (como links ou botões) dentro de <summary>."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "Por padrão, a maioria dos navegadores exibe uma pequena seta triangular ao lado do texto do <summary> que gira automaticamente quando o widget é aberto.",
+    relatedTags: ["details", "div"]
+  },
+  "dialog": {
+    name: "<dialog>",
+    category: "Estrutura",
+    description: "Representa uma caixa de diálogo ou janela modal nativa.",
+    whatIs: "A tag <dialog> representa uma caixa de diálogo, modal ou janela pop-up nativa do navegador. Ela pode ser controlada facilmente via JavaScript usando métodos nativos como showModal() e close().",
+    whatFor: [
+      "Criar janelas modais de confirmação ou alertas personalizados.",
+      "Construir caixas de diálogo interativas de forma nativa.",
+      "Melhorar a acessibilidade de modais sem depender de bibliotecas externas pesadas."
+    ],
+    syntax: `<dialog id="myModal" class="p-6 rounded-3xl border border-border bg-card shadow-2xl max-w-sm backdrop:bg-black/50 backdrop:backdrop-blur-sm animate-in fade-in duration-300">\n  <div class="space-y-4 text-center">\n    <h4 class="font-bold text-lg">Modal Nativo! 🎉</h4>\n    <p class="text-xs text-muted-foreground">Este é um modal criado 100% nativamente com a tag dialog do HTML5.</p>\n    <button onclick="document.getElementById('myModal').close()" class="px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-xl">Fechar</button>\n  </div>\n</dialog>\n<button onclick="document.getElementById('myModal').showModal()" class="px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-xl">Abrir Modal</button>`,
+    lineByLine: [
+      { line: '<dialog id="myModal" class="...">', explanation: "Inicia o elemento dialog com estilos de modal e estilização do fundo escurecido (backdrop:bg-black/50)." },
+      { line: '  <div class="...">', explanation: "Container interno para organizar o conteúdo." },
+      { line: '    <button onclick="...close()">', explanation: "Botão que chama o método close() nativo para fechar o modal." },
+      { line: '  </div>', explanation: "Fecha o container interno." },
+      { line: '</dialog>', explanation: "Fecha a tag dialog." },
+      { line: '<button onclick="...showModal()">', explanation: "Botão externo que chama o método showModal() nativo para abrir o modal com foco e backdrop." }
+    ],
+    attributes: [
+      { name: "open", description: "Indica que a caixa de diálogo está ativa e visível (geralmente controlado via JS).", required: false }
+    ],
+    bestPractices: [
+      "Sempre use o método JavaScript `showModal()` em vez de apenas adicionar o atributo `open` manualmente, pois `showModal()` adiciona o backdrop escurecido e gerencia o foco do teclado perfeitamente.",
+      "Estilize o fundo do modal usando o pseudo-elemento `::backdrop` do CSS."
+    ],
+    commonErrors: [
+      "Usar apenas o atributo `open` para exibir o modal, o que impede a navegação por teclado de ficar presa dentro do modal (quebrando a acessibilidade).",
+      "Esquecer de fornecer um botão ou forma clara de fechar o modal."
+    ],
+    compatibility: { chrome: "full", firefox: "full", safari: "full", edge: "full" },
+    curiosity: "A tag <dialog> gerencia automaticamente a tecla 'ESC' do teclado: ao pressioná-la, o navegador fecha o modal aberto nativamente, sem que você precise programar isso!",
+    relatedTags: ["div", "button"]
   }
 };
 

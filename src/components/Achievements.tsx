@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Award, CheckCircle2, Lock, Sparkles, BookOpen, Code, HelpCircle, Trophy } from 'lucide-react';
+import { Award, CheckCircle2, Lock, Sparkles, BookOpen, Code, HelpCircle, Trophy, RotateCcw, Trash2 } from 'lucide-react';
+import { showSuccess } from '../utils/toast';
 
 interface Achievement {
   id: string;
@@ -17,8 +18,9 @@ const Achievements: React.FC = () => {
     playgroundUsed: false,
     completedMissions: [] as string[],
   });
+  const [showConfirmReset, setShowConfirmReset] = useState(false);
 
-  useEffect(() => {
+  const loadStats = () => {
     const viewed = JSON.parse(localStorage.getItem('devatlas_viewed_tags') || '[]');
     const score = parseInt(localStorage.getItem('devatlas_quiz_highscore') || '0', 10);
     const playground = localStorage.getItem('devatlas_playground_used') === 'true';
@@ -30,9 +32,24 @@ const Achievements: React.FC = () => {
       playgroundUsed: playground,
       completedMissions: completed,
     });
+  };
+
+  useEffect(() => {
+    loadStats();
   }, []);
 
-  const totalTagsAvailable = 14; // img, div, form, video, section, a, ul, table, button, input, canvas, iframe, audio, picture
+  const handleResetProgress = () => {
+    localStorage.removeItem('devatlas_viewed_tags');
+    localStorage.removeItem('devatlas_quiz_highscore');
+    localStorage.removeItem('devatlas_playground_used');
+    localStorage.removeItem('devatlas_completed_missions');
+    
+    loadStats();
+    setShowConfirmReset(false);
+    showSuccess("Todo o seu progresso foi reiniciado com sucesso! 🚀");
+  };
+
+  const totalTagsAvailable = 22; // img, div, form, video, section, a, ul, table, button, input, canvas, iframe, audio, picture, p, main, footer, select, textarea, details, summary, dialog
   const tagsProgress = Math.min(Math.round((stats.viewedTags.length / totalTagsAvailable) * 100), 100);
 
   const achievementsList: Achievement[] = [
@@ -51,6 +68,14 @@ const Achievements: React.FC = () => {
       icon: <Sparkles size={20} />,
       requirement: 'Visualizar 5 tags',
       isUnlocked: stats.viewedTags.length >= 5,
+    },
+    {
+      id: 'html_master',
+      title: 'Mestre da Enciclopédia',
+      description: 'Estudou e explorou uma grande variedade de tags HTML5.',
+      icon: <Trophy size={20} className="text-amber-500" />,
+      requirement: 'Visualizar 12 tags',
+      isUnlocked: stats.viewedTags.length >= 12,
     },
     {
       id: 'code_scientist',
@@ -140,7 +165,7 @@ const Achievements: React.FC = () => {
             >
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
                 achievement.isUnlocked 
-                  ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400' 
+                  ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400' 
                   : 'bg-muted text-muted-foreground'
               }`}>
                 {achievement.isUnlocked ? achievement.icon : <Lock size={18} />}
@@ -165,6 +190,40 @@ const Achievements: React.FC = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Reset Progress Section */}
+      <div className="pt-6 border-t border-border flex flex-col items-center justify-center space-y-4">
+        {!showConfirmReset ? (
+          <button
+            onClick={() => setShowConfirmReset(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/20 border border-rose-200 dark:border-rose-900/50 rounded-xl transition-all"
+          >
+            <Trash2 size={14} />
+            Reiniciar Todo o Progresso
+          </button>
+        ) : (
+          <div className="p-6 bg-rose-50/30 border border-rose-100 dark:border-rose-950/30 rounded-2xl text-center space-y-4 max-w-md animate-in zoom-in-95 duration-200">
+            <h4 className="font-bold text-sm text-rose-800 dark:text-rose-400">Tem certeza absoluta?</h4>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Isso apagará permanentemente todas as suas medalhas, tags visualizadas, pontuações do quiz e missões concluídas.
+            </p>
+            <div className="flex items-center justify-center gap-3">
+              <button
+                onClick={handleResetProgress}
+                className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl transition-all"
+              >
+                Sim, Reiniciar
+              </button>
+              <button
+                onClick={() => setShowConfirmReset(false)}
+                className="px-4 py-2 bg-muted hover:bg-muted/80 text-foreground/80 text-xs font-semibold rounded-xl transition-all"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
